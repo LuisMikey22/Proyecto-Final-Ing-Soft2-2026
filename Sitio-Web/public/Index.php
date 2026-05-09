@@ -19,7 +19,15 @@
     $method = $_SERVER['REQUEST_METHOD'];
 
     if($route === '' || $route === 'home') {
-        return view('home/index');
+        if($method === 'GET') {
+            $productModel = new Product(getPDO());
+            $products = $productModel->all(); 
+            return view('home/index', ['products' => $products]);
+        }
+    }
+
+    if($route === 'about') {
+        return view('about/index');
     }
 
     if($route === 'admin/products') {
@@ -29,15 +37,6 @@
             $productModel = new Product(getPDO());
             $products = $productModel->all(); 
             return view('admin/products.index', compact('products'));
-        }
-    }
-
-
-    if($route === 'products') {
-        if($method === 'GET') {
-            $productModel = new Product(getPDO());
-            $products = $productModel->all(); 
-            return view('products/products.index', ['products' => $products]);
         }
     }
 

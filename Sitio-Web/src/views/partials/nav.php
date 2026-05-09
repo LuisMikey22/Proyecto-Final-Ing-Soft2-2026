@@ -88,7 +88,7 @@
                         </ul>
                     </li>
 
-                    <li><b>Admin</b>
+                    <li class="admin-link-visible"><b>Admin</b>
                         <ul class="nav-link-sub-list">
                             <a href="<?=BASE_PATH?>/admin/products"><li>Productos</li></a>
                             <a href="<?=BASE_PATH?>/admin/users"><li>Usuarios</li></a>
@@ -99,7 +99,7 @@
                 <div class="nav-button-bar">
                     <button id="search-button" class="search-button" title="Buscar"><img src="<?=ASSETS_PATH?>/images/searchIcon.svg" alt="search"></button>
                     <button class="account-button" title="Perfil"><a href="<?= $urlDestino ?>"><img src="<?=ASSETS_PATH?>/images/userIcon.svg" alt="account"></a></button>
-                    <button class="cart-button" title="Bolsa de compras"><a href="<?=BASE_PATH?>/products"><img src="<?=ASSETS_PATH?>/images/cartIcon.svg" alt="cart"></a></button>
+                    <button class="cart-button" title="Bolsa de compras"><a href="<?=BASE_PATH?>"><img src="<?=ASSETS_PATH?>/images/cartIcon.svg" alt="cart"></a></button>
                 </div>
             </nav>
 

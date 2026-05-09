@@ -45,7 +45,7 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 
-    <a class="action-button" style="margin: auto;" href="<?=BASE_PATH?>/products">
+    <a class="action-button" style="margin: auto;" href="<?=BASE_PATH?>">
         Volver a lista de productos
     </a>
 </section>

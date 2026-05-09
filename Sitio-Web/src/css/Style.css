@@ -305,7 +305,7 @@ nav {
     border-radius: var(--border-radius-8);
 }
 
-.nav-link-list li {
+.nav-link-list li, .admin-link-visible {
     display: inline;
     height: auto;
     width: 12rem;
@@ -317,6 +317,12 @@ nav {
     transition: background-color 0.2s, color 0.2s;
     border-radius: var(--border-radius-8);
 }
+
+.admin-link-hidden {
+    display: none;
+}
+
+.admin-list-link 
 
 .nav-link-sub-list li {
     display: flex;

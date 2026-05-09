@@ -1,5 +1,5 @@
 <section class="bg-base-100 rounded-3xl product">
-    <div class="max-w-6xl mx-auto bg-base-100 flex flex-col lg:flex-row justify-between 
+    <div class="w-auto mx-auto bg-base-100 flex flex-col lg:flex-row justify-between 
             gap-12 lg:gap-20 p-8 product-container">
 
         <div class="flex items-center justify-center 
