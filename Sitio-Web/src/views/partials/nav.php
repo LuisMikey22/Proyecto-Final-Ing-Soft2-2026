@@ -72,9 +72,9 @@
 
                     <li><b>Accesorios</b>
                         <ul class="nav-link-sub-list">
-                            <a><li>Recién agregados</li></a>
-                            <a><li>Mejor vendidos</li></a>
-                            <a><li>De temporada</li></a>
+                            <a href="<?=BASE_PATH?>#"><li>Recién agregados</li></a>
+                            <a href="<?=BASE_PATH?>#new-art-item-container"><li>Mejor vendidos</li></a>
+                            <a href="<?=BASE_PATH?>#best-art-item-container"><li>De temporada</li></a>
                         </ul>
                     </li>
 

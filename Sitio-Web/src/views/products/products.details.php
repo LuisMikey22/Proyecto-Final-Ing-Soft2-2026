@@ -39,9 +39,15 @@
         </div>
     </div>
 
-    <a class="action-button" style="margin: auto;" href="<?=BASE_PATH?>">
-        Volver a lista de productos
-    </a>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') : ?>
+        <a class="action-button" style="margin: auto;" href="<?=BASE_PATH?>/admin/products">
+            Volver a lista de productos
+        </a>
+    <?php else: ?>
+        <a class="action-button" style="margin: auto;" href="<?=BASE_PATH?>">
+            Volver a lista de productos
+        </a>
+    <?php endif; ?>
 </section>
 
 <script>

@@ -1,5 +1,5 @@
 <section class="bg-base-100 rounded-3xl product" style="margin-top: 2rem; margin-bottom: 2rem;">
-    <div class="w-auto mx-auto bg-base-100 flex flex-col lg:flex-row justify-between gap-12 lg:gap-20 p-8 product-container">
+    <div class="w-auto mx-auto bg-base-100 flex flex-col lg:flex-row justify-between gap-12 lg:gap-20 p-16 product-container">
 
         <div class="flex items-center justify-center lg:w-[50%] w-fit h-fit mx-auto lg:mx-0 rounded-3xl bg-white figure-shadow p-12">
             <div class="text-center">
@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="w-[320px] flex flex-col justify-center gap-8 lg:w-2/3 w-full">
+        <div class="w-full flex flex-col justify-center gap-8 lg:w-2/3">
             <h2 class="text-3xl font-bold text-teal-950">Mi Perfil</h2>
             
             <div class="flex flex-col gap-4">
@@ -36,7 +36,7 @@
                 <?php endif; ?>
             </div>
 
-            <div class="operation-container" style="margin-top: 1rem; width:100%; display: flex; gap: 1rem; flex-direction: column;">
+            <div class="operation-container" style="margin-top: 1rem; width:fit-content; display: flex; gap: 1rem; flex-direction: column;">
                 <a href="<?= BASE_PATH ?>/" class="action-button" style="text-decoration: none;">
                     Volver al inicio
                 </a>

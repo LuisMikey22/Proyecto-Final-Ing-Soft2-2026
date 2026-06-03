@@ -7,7 +7,7 @@
         </span>
 
         <!-- tarjetas -->
-        <div class="new-art-item-container item-container">
+        <div id="new-art-item-container" class="new-art-item-container item-container">
             <?php foreach($products as $product) : ?>
                 <?php if($product->category === 'newart'): ?>
                     <div class="card bg-base-100 shadow-sm art-item item">
@@ -41,7 +41,7 @@
         </span>
 
         <!-- tarjetas -->
-        <div class="best-selling-art-item-container item-container">
+        <div id="best-art-item-container"  class="best-selling-art-item-container item-container">
             <?php foreach($products as $product) : ?>
                 <?php if($product->category === 'bestsellingart'): ?>
                     <div class="card bg-base-100 shadow-sm art-item item">
@@ -75,7 +75,7 @@
         </span>
 
         <!-- tarjetas -->
-        <div class="seasonal-art-item-container item-container">
+        <div id="seasonal-art-item-container" class="seasonal-art-item-container item-container">
             <?php foreach($products as $product) : ?>
                 <?php if($product->category === 'seasonalart'): ?>
                     <div class="card bg-base-100 shadow-sm art-item item">

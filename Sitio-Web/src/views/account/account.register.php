@@ -24,6 +24,11 @@
                 <input type="hidden" name="rol" value="cliente">
             </div>
             
+            <div class="desc-container">
+                <label class="input-label" for="description">Descripción de perfil</label>
+                <textarea class="bordered-input" name="description" placeholder="Descripción"></textarea>
+            </div>
+
             <div class="action-container">
                 <a class="small-link" href="<?=BASE_PATH?>/login">¿Ya tienes una cuenta? Inicia sesión aquí</a>
                 <button class="action-button" type="submit">Registrarme</button>
