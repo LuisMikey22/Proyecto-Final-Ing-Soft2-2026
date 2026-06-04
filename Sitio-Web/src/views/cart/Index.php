@@ -55,16 +55,15 @@
                     <span>Calculado en checkout</span>
                 </div>
                 
-                <div style="display: flex; justify-content: space-between; font-size: 1.25rem; margin-bottom: 2rem; border-top: 2px solid #f1f5f9; padding-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 1.25rem; gap: rem; margin-bottom: 2rem; border-top: 2px solid #f1f5f9; padding-top: 1rem;">
                     <strong class="text-teal-950">Total a pagar</strong>
                     <strong style="color: var(--color-dark-blue);">$<?= number_format($total, 2) ?> MXN</strong>
                 </div>
 
-                <button class="action-button" style="width: 100%; text-align: center; font-size: 1.1rem; padding: 1rem; border-radius: 1rem;">
+                <a href="<?= BASE_PATH ?>/checkout" class="action-button" style="display: block; width: 100%; text-align: center; font-size: 1.1rem; padding: 1rem; border-radius: 1rem; text-decoration: none; box-sizing: border-box;">
                     Proceder al Pago 💳
-                </button>
+                </a>
             </div>
-
         </div>
     <?php endif; ?>
 </section>

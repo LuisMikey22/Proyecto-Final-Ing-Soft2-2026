@@ -17,6 +17,8 @@ require_once __DIR__ . '/../src/controllers/ProductsController.php';
 require_once __DIR__ . '/../src/controllers/ChatbotController.php';
 require_once __DIR__ . '/../src/controllers/DashboardController.php';
 require_once __DIR__ . '/../src/controllers/CartController.php';
+require_once __DIR__ . '/../src/controllers/CheckoutController.php';
+require_once __DIR__ . '/../src/controllers/TrackingController.php';
 
 $pdo = getPDO();
 $dashboardController = new DashboardController($pdo);
@@ -24,6 +26,8 @@ $chatbotController = new ChatbotController($pdo);
 $userController = new UsersController($pdo);
 $productController = new ProductsController($pdo);
 $cartController = new CartController($pdo);
+$checkoutController = new CheckoutController($pdo);
+$trackingController = new TrackingController($pdo);
 
 $route = trim($_GET['route'] ?? 'home', '/');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -110,6 +114,32 @@ if ($route === 'cart/add' && $method === 'POST') {
 // Eliminar del carrito
 if (preg_match('#^cart/remove/(\d+)$#', $route, $matches) && $method === 'POST') {
     return $cartController->removeFromCart((int)$matches[1]);
+}
+
+// ==========================================
+// RUTAS DE CHECKOUT Y PAGOS
+// ==========================================
+if ($route === 'checkout' && $method === 'GET') {
+    return $checkoutController->showCheckout();
+}
+if ($route === 'checkout/process' && $method === 'POST') {
+    return $checkoutController->processPayment();
+}
+if ($route === 'checkout/success' && $method === 'GET') {
+    return $checkoutController->success();
+}
+
+// ==========================================
+// RUTAS DE SEGUIMIENTO Y DEVOLUCIONES
+// ==========================================
+if ($route === 'mis-compras' && $method === 'GET') {
+    return $trackingController->myOrders();
+}
+if (preg_match('#^tracking/(\d+)$#', $route, $matches) && $method === 'GET') {
+    return $trackingController->trackOrder((int)$matches[1]);
+}
+if (preg_match('#^returns/(\d+)$#', $route, $matches) && $method === 'POST') {
+    return $trackingController->processReturn((int)$matches[1]);
 }
 
 // ==========================================

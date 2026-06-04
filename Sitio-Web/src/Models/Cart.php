@@ -49,40 +49,50 @@ class Cart {
     }
 
     /**
-     * Añade un producto al carrito (o suma 1 si ya existe).
+     * Añade un producto al carrito (Versión de Diagnóstico Extremo)
      */
     public function addItem($id_user, $id_product, $quantity = 1) {
+        // 1. FORZAMOS A PHP A MOSTRAR LOS ERRORES DE SQL SÍ O SÍ
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         try {
-            // 1. Obtener el precio actual del producto que vamos a agregar
+            // Obtenemos el precio del producto
             $stmtProd = $this->pdo->prepare("SELECT price FROM products WHERE id_product = ?");
             $stmtProd->execute([$id_product]);
             $prod = $stmtProd->fetch(PDO::FETCH_ASSOC);
-            $price_at_add = $prod ? $prod['price'] : 0; // Guardamos su precio
+            $price_at_add = $prod ? $prod['price'] : 0; 
 
-            // 2. Obtenemos o creamos el carrito del usuario
+            // Obtenemos o creamos el carrito del usuario
             $id_cart = $this->getActiveCartId($id_user);
 
-            // 3. Verificar si este estambre ya está en su carrito
+            // Verificamos si ya existe el estambre en el carrito
             $check = $this->pdo->prepare("SELECT id_cart_item, quantity FROM cart_items WHERE id_cart = ? AND id_product = ?");
             $check->execute([$id_cart, $id_product]);
             $existing = $check->fetch(PDO::FETCH_ASSOC);
 
             if ($existing) {
-                // Si ya existe, le sumamos la cantidad
+                // Si existe, actualizamos
                 $newQty = $existing['quantity'] + $quantity;
                 $update = $this->pdo->prepare("UPDATE cart_items SET quantity = ? WHERE id_cart_item = ?");
-                return $update->execute([$newQty, $existing['id_cart_item']]);
+                $success = $update->execute([$newQty, $existing['id_cart_item']]);
             } else {
-                // CORRECCIÓN: Ahora sí le enviamos el 'price_at_add' a la base de datos
-                $insert = $this->pdo->prepare("INSERT INTO cart_items (id_cart, id_product, quantity, price_at_add) VALUES (?, ?, ?, ?)");
-                return $insert->execute([$id_cart, $id_product, $quantity, $price_at_add]);
+                // Si no existe, insertamos (AQUÍ ESTÁ EL SOSPECHOSO)
+                $insert = $this->pdo->prepare("INSERT INTO cart_items (id_cart, id_product, quantity, price_at_addition, created_at) VALUES (?, ?, ?, ?, NOW())");
+                $success = $insert->execute([$id_cart, $id_product, $quantity, $price_at_add]);
             }
+
+            // Si la ejecución falla pero PDO no lanza excepción, lo forzamos a detenerse
+            if (!$success) {
+                die("🚨 ERROR SILENCIOSO DESCUBIERTO: " . print_r($this->pdo->errorInfo(), true));
+            }
+
+            return true;
+
         } catch(PDOException $e) {
-            error_log("Error en Cart::removeItem(): " . $e->getMessage());
-            return false;
+            // Si PDO lanza la excepción, la atrapamos e imprimimos
+            die("🚨 ERROR EXPLÍCITO AL GUARDAR: " . $e->getMessage());
         }
     }
-
 
     /**
      * Elimina un producto específico del carrito.
