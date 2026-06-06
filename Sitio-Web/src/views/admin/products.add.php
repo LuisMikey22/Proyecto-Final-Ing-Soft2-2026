@@ -9,12 +9,16 @@
             </div>
 
             <div class="text-input-container">
-                <label class="input-label" for="category">Categoría</label>
-                <select class="bordered-input" id="category" name="category" required>
-                    <option value="">Selecciona una categoría</option>
-                    <option value="newart">Artículo nuevo</option>
-                    <option value="bestsellingart">Artículo mejor vendido</option>
-                    <option value="seasonalart">Artículo de temporada</option>
+                <label class="input-label" for="id_category">Categoría</label>
+                <select class="bordered-input" id="id_category" name="id_category" required>
+                    <optgroup label="Selecciona una categoría">
+                        <option value="1">Artículo nuevo</option>
+                        <option value="2">Artículo mejor vendido</option>
+                        <option value="3">Artículo de temporada</option>
+                        <option value="4">Estambres</option>
+                        <option value="5">Patrones</option>
+                        <option value="6">Ganchos</option>
+                    </optgroup>
                 </select>
             </div>
 

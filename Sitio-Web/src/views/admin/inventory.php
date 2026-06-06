@@ -28,11 +28,11 @@
                         <?php endif; ?>
                     </div>
 
-                    <div style="text-align: center; color: #64748b;">
+                    <div style="text-align: center; font-weight: normal; color: var(--color-dark-blue);">
                         $<?= number_format($p['price'], 2) ?>
                     </div>
 
-                    <div style="text-align: center; font-size: 1.2rem; font-weight: bold; color: <?= $p['stock'] <= 3 ? '#991b1b' : 'var(--color-dark-blue)' ?>;">
+                    <div style="text-align: center; font-size: 1.2rem; font-weight: normal; color: <?= $p['stock'] <= 3 ? '#991b1b' : 'var(--color-dark-blue)' ?>;">
                         <?= $p['stock'] ?>
                     </div>
 
@@ -41,7 +41,7 @@
                             <input type="hidden" name="id_product" value="<?= $p['id_product'] ?>">
                             <input type="hidden" name="product_name" value="<?= htmlspecialchars($p['name']) ?>">
                             
-                            <input class="bordered-input" type="number" name="quantity" min="1" required placeholder="+0" style="width: 70px; padding: 0.5rem; border-radius: 0.5rem; text-align: center; color: var(--color-dark-blue">
+                            <input class="bordered-input" type="number" name="quantity" min="1" required placeholder="+0" style="width: 70px; padding: 0.5rem; border-radius: 0.5rem; text-align: center; color: var(--color-dark-blue);">
                             
                             <button type="submit" style="background: #0ea5e9; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: bold; transition: 0.2s;">
                                 Añadir

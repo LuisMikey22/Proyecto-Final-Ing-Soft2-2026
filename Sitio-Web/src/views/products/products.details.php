@@ -14,8 +14,8 @@
         </figure>
 
         <div class="w-[320px] flex flex-col justify-center gap-8 lg:w-2/3 w-full">
-            <h2 class="text-3xl font-bold text-teal-950"><?=$product->name?></h2>
-            <p class="text-sm text-teal-950"><?=$fiberContent?></p>
+            <h2 class="text-3xl font-bold text-teal-950"><?=$product->name?></h2> 
+            <!-- <p class="text-sm text-teal-950"><?=$fiberContent?></p>-->
             <p class="text-2xl font-bold text-teal-950">$<?=$product->price?> MXN</p>
 
             <?php if($isLoggedIn): ?>

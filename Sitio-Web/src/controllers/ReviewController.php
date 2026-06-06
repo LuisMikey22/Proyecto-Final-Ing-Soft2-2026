@@ -31,7 +31,7 @@ class ReviewController {
             header('Location: ' . BASE_PATH . '/mis-compras?msg=review_success');
             exit();
         } else {
-            die("🚨 Por favor, selecciona al menos 1 estrella antes de enviar tu reseña.");
+            header('Location: ' . BASE_PATH . '/review/'. htmlspecialchars($id_product));
         }
     }
 }

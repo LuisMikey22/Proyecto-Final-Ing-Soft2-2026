@@ -55,39 +55,31 @@
                 </a>
 
                 <ul class="nav-link-list">
-                    <li><b>Estambres</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Algodón</li></a>
-                            <a><li>Lana</li></a>
-                            <a><li>Lana merino</li></a>
-                            <a><li>Lino</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>#seasonal-art">
+                        <li>
+                            <b>Estambres</b>
+                        </li>
+                    </a>
 
-                    <li><b>Patrones</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Principiantes</li></a>
-                            <a><li>Intermedios</li></a>
-                            <a><li>Avanzados</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>#yarn-art">
+                        <li>
+                            <b>Patrones</b>
+                        </li>
+                     </a>
 
                     <li><b>Accesorios</b>
                         <ul class="nav-link-sub-list">
                             <a href="<?=BASE_PATH?>#"><li>Recién agregados</li></a>
-                            <a href="<?=BASE_PATH?>#new-art-item-container"><li>Mejor vendidos</li></a>
-                            <a href="<?=BASE_PATH?>#best-art-item-container"><li>De temporada</li></a>
+                            <a href="<?=BASE_PATH?>#new-art"><li>Mejor vendidos</li></a>
+                            <a href="<?=BASE_PATH?>#best-selling-art"><li>De temporada</li></a>
                         </ul>
                     </li>
 
-                    <li><b>Ganchos</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Metal</li></a>
-                            <a><li>Bambú</li></a>
-                            <a><li>Plástico</li></a>
-                            <a><li>Vidrio</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>#pattern-art">
+                        <li>
+                            <b>Ganchos</b>
+                        </li>
+                     </a>
 
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') : ?>
                         <li class="admin-link-visible"><b>Admin</b>

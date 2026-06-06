@@ -11,9 +11,14 @@
             <div class="text-input-container">
                 <label class="input-label" for="id_category">Categoría</label>
                 <select class="bordered-input" id="id_category" name="id_category" required>
-                    <option value="1" <?= $product->id_category == 1 ? 'selected' : '' ?>>Artículo nuevo</option>
-                    <option value="2" <?= $product->id_category == 2 ? 'selected' : '' ?>>Artículo mejor vendido</option>
-                    <option value="3" <?= $product->id_category == 3 ? 'selected' : '' ?>>Artículo de temporada</option>
+                    <optgroup label="Selecciona una categoría">
+                        <option value="1" <?= $product->id_category == 1 ? 'selected' : '' ?>>Artículo nuevo</option>
+                        <option value="2" <?= $product->id_category == 2 ? 'selected' : '' ?>>Artículo mejor vendido</option>
+                        <option value="3" <?= $product->id_category == 3 ? 'selected' : '' ?>>Artículo de temporada</option>
+                        <option value="4" <?= $product->id_category == 4 ? 'selected' : '' ?>>Estambres</option>
+                        <option value="5" <?= $product->id_category == 5 ? 'selected' : '' ?>>Patrones</option>
+                        <option value="6" <?= $product->id_category == 6 ? 'selected' : '' ?>>Ganchos</option>
+                    </optgroup>
                 </select>
             </div>
 
