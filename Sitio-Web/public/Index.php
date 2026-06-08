@@ -21,6 +21,9 @@ require_once __DIR__ . '/../src/controllers/CheckoutController.php';
 require_once __DIR__ . '/../src/controllers/TrackingController.php';
 require_once __DIR__ . '/../src/controllers/InventoryController.php';
 require_once __DIR__ . '/../src/controllers/ReviewController.php';
+require_once __DIR__ . '/../src/Models/Product.php';
+require_once __DIR__ . '/../src/Models/User.php';
+require_once __DIR__ . '/../src/Models/Cart.php';
 
 $pdo = getPDO();
 $dashboardController = new DashboardController($pdo);
@@ -33,7 +36,7 @@ $trackingController = new TrackingController($pdo);
 $inventoryController = new InventoryController($pdo);
 $reviewController = new ReviewController($pdo);
 
-$route = trim($_GET['route'] ?? 'home', '/');
+$route = strtolower(trim($_GET['route'] ?? 'home', '/'));
 $method = $_SERVER['REQUEST_METHOD'];
 
 // ==========================================
