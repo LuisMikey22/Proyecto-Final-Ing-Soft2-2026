@@ -72,6 +72,7 @@ if (preg_match('#^products/(\d+)$#', $route, $matches)) {
     if ($method === 'GET') return $productController->showDetails((int)$matches[1]);
 }
 
+
 // ==========================================
 // 2. RUTAS DE AUTENTICACIÓN Y PERFIL
 // ==========================================
@@ -99,6 +100,7 @@ if (preg_match('#^account/profile/(\d+)$#', $route, $matches)) {
     if ($method === 'GET') return $userController->showProfile((int)$matches[1]);
 }
 
+
 // ==========================================
 // 3. RUTAS DEL CARRITO DE COMPRAS
 // ==========================================
@@ -120,6 +122,7 @@ if (preg_match('#^cart/remove/(\d+)$#', $route, $matches) && $method === 'POST')
     return $cartController->removeFromCart((int)$matches[1]);
 }
 
+
 // ==========================================
 // RUTAS DE RESEÑAS / REVIEWS
 // ==========================================
@@ -129,6 +132,10 @@ if (preg_match('#^review/(\d+)$#', $route, $matches) && $method === 'GET') {
 if ($route === 'review/submit' && $method === 'POST') {
     return $reviewController->submitReview();
 }
+if ($route === 'reviews/all' && $method === 'GET') {
+    return $reviewController->showAllReviews();
+} 
+
 
 // ==========================================
 // RUTAS DE CHECKOUT Y PAGOS
@@ -143,6 +150,7 @@ if ($route === 'checkout/success' && $method === 'GET') {
     return $checkoutController->success();
 }
 
+
 // ==========================================
 // RUTAS DE SEGUIMIENTO Y DEVOLUCIONES
 // ==========================================
@@ -156,7 +164,8 @@ if (preg_match('#^returns/(\d+)$#', $route, $matches) && $method === 'POST') {
     return $trackingController->processReturn((int)$matches[1]);
 }
 
-// ==========================================
+// =
+// =========================================
 // 4. RUTAS ADMINISTRATIVAS (Protegidas)
 // ==========================================
 
@@ -200,6 +209,7 @@ if (preg_match('#^admin/products/delete/(\d+)$#', $route, $matches)) {
 if ($route === 'admin/dashboard' && $method === 'GET') {
     return $dashboardController->showAnalyticsSuite();
 }
+
 
 // --- MÓDULO DE USUARIOS ---
 if ($route === 'admin/users') {
@@ -266,6 +276,7 @@ if (preg_match('#^admin/users/delete/(\d+)$#', $route, $matches)) {
     return $userController->deleteUser((int)$matches[1]);
 }
 
+
 // RUTAS DE INVENTARIO (ADMIN)
 // ==========================================
 if ($route === 'admin/inventory' && $method === 'GET') {
@@ -274,6 +285,7 @@ if ($route === 'admin/inventory' && $method === 'GET') {
 if ($route === 'admin/inventory/add' && $method === 'POST') {
     return $inventoryController->updateStock();
 }
+
 
 // ==========================================
 // MÓDULO DE CHATBOT (Rutas Web y API)
@@ -290,6 +302,7 @@ if (preg_match('#^api/chatbot/sub/(\d+)$#', $route, $matches) && $method === 'GE
 if ($route === 'api/chatbot/log' && $method === 'POST') {
     return $chatbotController->apiLogInteraction();
 }
+
 
 // ==========================================
 // 5. MANEJO DE ERRORES (Cierre del Router)

@@ -16,7 +16,7 @@ class ReviewController {
         return view('reviews/create', ['id_product' => $id_product]);
     }
 
-    // Atrapa los datos del formulario y los guarda
+    // Colecta los datos del formulario y los guarda
     public function submitReview() {
         requerirAutenticacion();
         
@@ -27,11 +27,19 @@ class ReviewController {
 
         if ($rating >= 1 && $rating <= 5 && $id_product > 0) {
             $this->reviewModel->addReview($id_user, $id_product, $rating, $comment);
-            // Si todo sale bien, lo regresamos a sus compras con un mensaje
+            // Si todo sale bien, regresar a sus compras con un mensaje
             header('Location: ' . BASE_PATH . '/mis-compras?msg=review_success');
             exit();
         } else {
             header('Location: ' . BASE_PATH . '/review/'. htmlspecialchars($id_product));
         }
+    }
+
+    // Muestra el panel de administración con todas las reseñas
+    public function showAllReviews() {
+        requerirAutenticacion(); 
+        
+        $reviews = $this->reviewModel->getAllReviews();
+        return view('reviews/reviews', ['reviews' => $reviews]);
     }
 }

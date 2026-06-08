@@ -1,7 +1,6 @@
 <?php 
     $urlDestinoCuenta = isset($_SESSION['id_user']) ? BASE_PATH . "/account/profile/" . $_SESSION['id_user'] : BASE_PATH . "/login"; 
     $urlDestinoCarrito = isset($_SESSION['id_user']) ? BASE_PATH . "/cart" : BASE_PATH . "/login"; 
-    $isLoggedIn = isset($_SESSION['id_user']);
 ?>
 
 <!DOCTYPE html>

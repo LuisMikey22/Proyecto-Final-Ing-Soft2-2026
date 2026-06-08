@@ -1,3 +1,7 @@
+<?php
+    $isLoggedIn = isset($_SESSION['id_user']);
+?>
+
 <section class="home-info">
     <h1 class="home-title">Estambres de Calidad</h1>
     
@@ -26,7 +30,9 @@
         </span>
 
         <h4 class="banner-text">
-            4,000+ reseñas positivas
+            <a href="<?= BASE_PATH ?>/reviews/all">
+                4,000+ reseñas positivas
+            </a>
         </h4>
     </div>
 
@@ -36,7 +42,15 @@
         </span>
 
         <h4 class="banner-text"> 
-            Envío gratis en México en compras mayores a $500
+            <?php if ($isLoggedIn) : ?>
+                <a href="<?= BASE_PATH ?>/mis-compras">
+                    Envío gratis en México en compras mayores a $500
+                </a>
+            <?php else: ?>
+                <a href="<?=BASE_PATH?>/login">
+                    Envío gratis en México en compras mayores a $500
+                </a>
+            <?php endif; ?>
         </h4> 
     </div>
 
@@ -46,7 +60,15 @@
         </span>
 
         <h4 class="banner-text">
-            Cambios o devoluciones 
+            <?php if ($isLoggedIn) : ?>
+                <a href="<?= BASE_PATH ?>/mis-compras">
+                    Cambios o devoluciones 
+                </a>
+            <?php else: ?>
+                <a href="<?=BASE_PATH?>/login">
+                    Cambios o devoluciones 
+                </a>
+            <?php endif; ?>
         </h4> 
     </div>
 </section>
