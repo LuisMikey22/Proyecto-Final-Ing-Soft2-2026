@@ -13,14 +13,14 @@
             <a href="<?= BASE_PATH ?>/" class="action-button" style="display: inline-block; margin-top: 1.5rem; text-decoration: none;">Explorar Productos</a>
         </div>
     <?php else: ?>
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;">
+        <div style="display: flex; gap: 2rem; align-items: center;">
             
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div style="display: flex; flex-direction: column; width: min-content; padding: 1rem; gap: 1.5rem; max-height: 25vw; overflow-y: scroll;">
                 <?php foreach ($items as $item): ?>
-                    <div class="figure-shadow" style="background: white; padding: 1.5rem; border-radius: 1.5rem; display: flex; gap: 1.5rem; align-items: center;">
+                    <div class="figure-shadow" style="background: white; width: fit-content; padding: 1.5rem; border-radius: 1.5rem; display: flex; gap: 1.5rem; align-items: center;">
                         <div style="width: 100px; height: 100px; background-color: #f1f5f9; border-radius: 1rem; overflow: hidden; flex-shrink: 0;">
                             <?php if(!empty($item['image_url'] ?? null)): ?>
-                                <img src="<?= BASE_PATH ?>/public/uploads/<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="<?=ASSETS_PATH?>/images/uploads/<?= htmlspecialchars($item['image_url']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
                             <?php else: ?>
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #94a3b8;">🧶</div>
                             <?php endif; ?>
