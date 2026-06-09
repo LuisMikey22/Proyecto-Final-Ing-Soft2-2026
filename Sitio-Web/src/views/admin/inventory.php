@@ -41,7 +41,7 @@
                             <input type="hidden" name="id_product" value="<?= $p['id_product'] ?>">
                             <input type="hidden" name="product_name" value="<?= htmlspecialchars($p['name']) ?>">
                             
-                            <input class="bordered-input" type="number" name="quantity" min="1" required placeholder="+0" style="width: 70px; padding: 0.5rem; border-radius: 0.5rem; text-align: center; color: var(--color-dark-blue);">
+                            <input class="bordered-input" type="number" name="quantity" min="1" step="1" required placeholder="1" style="width: 70px; padding: 0.5rem; border-radius: 0.5rem; text-align: center; color: var(--color-dark-blue);">
                             
                             <button type="submit" style="background: #0ea5e9; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-weight: bold; transition: 0.2s;">
                                 Añadir

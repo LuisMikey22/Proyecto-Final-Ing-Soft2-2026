@@ -29,7 +29,15 @@
                         <div style="flex-grow: 1;">
                             <h3 class="text-xl font-bold text-teal-950" style="margin: 0 0 0.5rem 0;"><?= htmlspecialchars($item['name']) ?></h3>
                             <p class="text-teal-700" style="margin: 0; font-weight: bold;">$<?= number_format($item['price'], 2) ?> MXN</p>
-                            <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0 0;">Cantidad: <?= $item['quantity'] ?></p>
+
+                            <form action="<?= BASE_PATH ?>/cart" method="POST">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <button type="submit" id="dec" style="color: var(--color-dark-blue);">−</button>
+                                    <input id="quantity" class="bordered-input" type="number" name="quantity" min="1" step="1" value="1" readonly
+                                            style="width: 70px; padding: 0.5rem; border-radius: 0.5rem; text-align: center; color: var(--color-dark-blue);" readonly>
+                                    <button type="submit" id="inc" style="color: var(--color-dark-blue);">+</button>
+                                </div>
+                            </form>
                         </div>
                         
                         <div>
@@ -67,3 +75,19 @@
         </div>
     <?php endif; ?>
 </section>
+
+<script>
+    const quantity = document.getElementById('quantity');
+    const inc = document.getElementById('inc');
+    const dec = document.getElementById('dec');
+
+    inc.addEventListener('click', () => {
+        quantity.value = parseInt(quantity.value) + 1;
+    });
+
+    dec.addEventListener('click', () => {
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
+        }
+    });
+</script>
