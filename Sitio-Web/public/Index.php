@@ -154,6 +154,10 @@ if (preg_match('#^admin/products/delete/(\d+)$#', $route, $matches)) {
 if ($route === 'admin/dashboard' && $method === 'GET') {
     return $dashboardController->showAnalyticsSuite();
 }
+// API del Dashboard: datos JSON para el filtro temporal asíncrono (AJAX/Fetch)
+if ($route === 'api/dashboard/data' && $method === 'GET') {
+    return $dashboardController->apiAnalyticsData();
+}
 
 // --- MÓDULO DE USUARIOS ---
 if ($route === 'admin/users') {

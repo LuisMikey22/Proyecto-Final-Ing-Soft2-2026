@@ -15,7 +15,8 @@
             
             <img class="w-full h-full object-contain rounded-3xl" 
                 src="<?=ASSETS_PATH?>/images/<?=e($product->image)?>" 
-                alt="<?=e($product->name)?>">
+                alt="<?=e($product->name)?>"
+                decoding="async">
         </figure>
 
         <div class="w-[320px] flex flex-col justify-center gap-8 lg:w-2/3 w-full">

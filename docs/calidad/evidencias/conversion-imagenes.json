@@ -1,0 +1,258 @@
+{
+  "fecha": "2026-11-20",
+  "parametros": {
+    "lado_maximo_px": 1000,
+    "calidad_webp": 82
+  },
+  "total_imagenes": 35,
+  "total_mb_antes": 135.6,
+  "total_mb_despues": 2.1,
+  "reduccion_total_porcentaje": 98.5,
+  "detalle": [
+    {
+      "archivo_original": "1764313849_DASC.png",
+      "archivo_webp": "1764313849_DASC.webp",
+      "kb_antes": 13.9,
+      "kb_despues": 9.0,
+      "reduccion_porcentaje": 35.6
+    },
+    {
+      "archivo_original": "1764314492_gt3.png",
+      "archivo_webp": "1764314492_gt3.webp",
+      "kb_antes": 297.1,
+      "kb_despues": 22.0,
+      "reduccion_porcentaje": 92.6
+    },
+    {
+      "archivo_original": "1764662274_Captura de pantalla 2025-11-28 001932.png",
+      "archivo_webp": "1764662274_Captura de pantalla 2025-11-28 001932.webp",
+      "kb_antes": 297.1,
+      "kb_despues": 22.0,
+      "reduccion_porcentaje": 92.6
+    },
+    {
+      "archivo_original": "1764711946_Captura de pantalla 2025-12-02 144457.png",
+      "archivo_webp": "1764711946_Captura de pantalla 2025-12-02 144457.webp",
+      "kb_antes": 30.4,
+      "kb_despues": 2.5,
+      "reduccion_porcentaje": 91.8
+    },
+    {
+      "archivo_original": "1764806579_descarga.jpeg",
+      "archivo_webp": "1764806579_descarga.webp",
+      "kb_antes": 10.0,
+      "kb_despues": 12.4,
+      "reduccion_porcentaje": -24.3
+    },
+    {
+      "archivo_original": "1764810377_cyrto.png",
+      "archivo_webp": "1764810377_cyrto.webp",
+      "kb_antes": 36.8,
+      "kb_despues": 11.1,
+      "reduccion_porcentaje": 69.8
+    },
+    {
+      "archivo_original": "bestSellingArt (1).png",
+      "archivo_webp": "bestSellingArt (1).webp",
+      "kb_antes": 2632.1,
+      "kb_despues": 82.2,
+      "reduccion_porcentaje": 96.9
+    },
+    {
+      "archivo_original": "bestSellingArt (10).png",
+      "archivo_webp": "bestSellingArt (10).webp",
+      "kb_antes": 6549.5,
+      "kb_despues": 25.2,
+      "reduccion_porcentaje": 99.6
+    },
+    {
+      "archivo_original": "bestSellingArt (2).png",
+      "archivo_webp": "bestSellingArt (2).webp",
+      "kb_antes": 2020.9,
+      "kb_despues": 41.3,
+      "reduccion_porcentaje": 98.0
+    },
+    {
+      "archivo_original": "bestSellingArt (3).png",
+      "archivo_webp": "bestSellingArt (3).webp",
+      "kb_antes": 1255.7,
+      "kb_despues": 47.4,
+      "reduccion_porcentaje": 96.2
+    },
+    {
+      "archivo_original": "bestSellingArt (4).png",
+      "archivo_webp": "bestSellingArt (4).webp",
+      "kb_antes": 1918.7,
+      "kb_despues": 33.8,
+      "reduccion_porcentaje": 98.2
+    },
+    {
+      "archivo_original": "bestSellingArt (5).png",
+      "archivo_webp": "bestSellingArt (5).webp",
+      "kb_antes": 2850.8,
+      "kb_despues": 79.9,
+      "reduccion_porcentaje": 97.2
+    },
+    {
+      "archivo_original": "bestSellingArt (6).png",
+      "archivo_webp": "bestSellingArt (6).webp",
+      "kb_antes": 4142.1,
+      "kb_despues": 48.9,
+      "reduccion_porcentaje": 98.8
+    },
+    {
+      "archivo_original": "bestSellingArt (7).png",
+      "archivo_webp": "bestSellingArt (7).webp",
+      "kb_antes": 5784.1,
+      "kb_despues": 38.3,
+      "reduccion_porcentaje": 99.3
+    },
+    {
+      "archivo_original": "bestSellingArt (8).png",
+      "archivo_webp": "bestSellingArt (8).webp",
+      "kb_antes": 3777.2,
+      "kb_despues": 85.8,
+      "reduccion_porcentaje": 97.7
+    },
+    {
+      "archivo_original": "bestSellingArt (9).png",
+      "archivo_webp": "bestSellingArt (9).webp",
+      "kb_antes": 3644.9,
+      "kb_despues": 124.6,
+      "reduccion_porcentaje": 96.6
+    },
+    {
+      "archivo_original": "newArtItem (1).png",
+      "archivo_webp": "newArtItem (1).webp",
+      "kb_antes": 3106.8,
+      "kb_despues": 98.8,
+      "reduccion_porcentaje": 96.8
+    },
+    {
+      "archivo_original": "newArtItem (10).png",
+      "archivo_webp": "newArtItem (10).webp",
+      "kb_antes": 1494.6,
+      "kb_despues": 25.3,
+      "reduccion_porcentaje": 98.3
+    },
+    {
+      "archivo_original": "newArtItem (2).png",
+      "archivo_webp": "newArtItem (2).webp",
+      "kb_antes": 1490.8,
+      "kb_despues": 64.6,
+      "reduccion_porcentaje": 95.7
+    },
+    {
+      "archivo_original": "newArtItem (3).png",
+      "archivo_webp": "newArtItem (3).webp",
+      "kb_antes": 2862.6,
+      "kb_despues": 124.3,
+      "reduccion_porcentaje": 95.7
+    },
+    {
+      "archivo_original": "newArtItem (4).png",
+      "archivo_webp": "newArtItem (4).webp",
+      "kb_antes": 1529.4,
+      "kb_despues": 42.2,
+      "reduccion_porcentaje": 97.2
+    },
+    {
+      "archivo_original": "newArtItem (5).png",
+      "archivo_webp": "newArtItem (5).webp",
+      "kb_antes": 1969.1,
+      "kb_despues": 36.8,
+      "reduccion_porcentaje": 98.1
+    },
+    {
+      "archivo_original": "newArtItem (6).png",
+      "archivo_webp": "newArtItem (6).webp",
+      "kb_antes": 4633.5,
+      "kb_despues": 58.6,
+      "reduccion_porcentaje": 98.7
+    },
+    {
+      "archivo_original": "newArtItem (7).png",
+      "archivo_webp": "newArtItem (7).webp",
+      "kb_antes": 6160.0,
+      "kb_despues": 86.1,
+      "reduccion_porcentaje": 98.6
+    },
+    {
+      "archivo_original": "newArtItem (8).png",
+      "archivo_webp": "newArtItem (8).webp",
+      "kb_antes": 5043.2,
+      "kb_despues": 35.2,
+      "reduccion_porcentaje": 99.3
+    },
+    {
+      "archivo_original": "newArtItem (9).png",
+      "archivo_webp": "newArtItem (9).webp",
+      "kb_antes": 1598.9,
+      "kb_despues": 25.3,
+      "reduccion_porcentaje": 98.4
+    },
+    {
+      "archivo_original": "seasonArtItem (1).png",
+      "archivo_webp": "seasonArtItem (1).webp",
+      "kb_antes": 10737.0,
+      "kb_despues": 50.8,
+      "reduccion_porcentaje": 99.5
+    },
+    {
+      "archivo_original": "seasonArtItem (2).png",
+      "archivo_webp": "seasonArtItem (2).webp",
+      "kb_antes": 12231.2,
+      "kb_despues": 144.6,
+      "reduccion_porcentaje": 98.8
+    },
+    {
+      "archivo_original": "seasonArtItem (3).png",
+      "archivo_webp": "seasonArtItem (3).webp",
+      "kb_antes": 10259.8,
+      "kb_despues": 59.5,
+      "reduccion_porcentaje": 99.4
+    },
+    {
+      "archivo_original": "seasonArtItem (4).png",
+      "archivo_webp": "seasonArtItem (4).webp",
+      "kb_antes": 10623.1,
+      "kb_despues": 119.1,
+      "reduccion_porcentaje": 98.9
+    },
+    {
+      "archivo_original": "seasonArtItem (5).png",
+      "archivo_webp": "seasonArtItem (5).webp",
+      "kb_antes": 11007.5,
+      "kb_despues": 182.4,
+      "reduccion_porcentaje": 98.3
+    },
+    {
+      "archivo_original": "seasonArtItem (6).png",
+      "archivo_webp": "seasonArtItem (6).webp",
+      "kb_antes": 6930.1,
+      "kb_despues": 121.5,
+      "reduccion_porcentaje": 98.2
+    },
+    {
+      "archivo_original": "seasonArtItem (7).png",
+      "archivo_webp": "seasonArtItem (7).webp",
+      "kb_antes": 3410.1,
+      "kb_despues": 32.8,
+      "reduccion_porcentaje": 99.0
+    },
+    {
+      "archivo_original": "seasonArtItem (8).png",
+      "archivo_webp": "seasonArtItem (8).webp",
+      "kb_antes": 5630.1,
+      "kb_despues": 105.4,
+      "reduccion_porcentaje": 98.1
+    },
+    {
+      "archivo_original": "seasonArtItem (9).png",
+      "archivo_webp": "seasonArtItem (9).webp",
+      "kb_antes": 2825.5,
+      "kb_despues": 50.9,
+      "reduccion_porcentaje": 98.2
+    }
+  ]
+}

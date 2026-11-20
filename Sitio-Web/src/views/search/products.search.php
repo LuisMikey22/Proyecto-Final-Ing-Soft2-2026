@@ -28,7 +28,7 @@
                 <div class="card bg-base-100 shadow-sm art-item item">
                     <a class="image-link" href="<?= BASE_PATH ?>/products/<?= $foundProductCard->id_product ?>">
                         <figure class="art-item-image-container">
-                            <img src="<?=ASSETS_PATH?>/images/<?=$foundProductCard->image?>">  
+                            <img src="<?=ASSETS_PATH?>/images/<?=e($foundProductCard->image)?>" alt="<?=e($foundProductCard->name)?>" loading="lazy" decoding="async">  
                         </figure>
 
                         <div class="card-body art-desc-container">

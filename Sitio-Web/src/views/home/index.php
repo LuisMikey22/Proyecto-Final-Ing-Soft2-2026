@@ -13,7 +13,7 @@
                     <div class="card bg-base-100 shadow-sm art-item item">
                         <a class="image-link" href="<?= BASE_PATH ?>/products/<?= $product->id_product ?>">
                             <figure class="art-item-image-container">
-                                <img src="<?=ASSETS_PATH?>/images/<?=$product->image?>">  
+                                <img src="<?=ASSETS_PATH?>/images/<?=e($product->image)?>" alt="<?=e($product->name)?>" loading="lazy" decoding="async">  
                             </figure>
 
                             <div class="card-body art-desc-container">
@@ -66,7 +66,7 @@
                     <div class="card bg-base-100 shadow-sm art-item item">
                         <a class="image-link" href="<?= BASE_PATH ?>/products/<?= $product->id_product ?>">
                             <figure class="art-item-image-container">
-                                <img src="<?=ASSETS_PATH?>/images/<?=$product->image?>">  
+                                <img src="<?=ASSETS_PATH?>/images/<?=e($product->image)?>" alt="<?=e($product->name)?>" loading="lazy" decoding="async">  
                             </figure>
 
                             <div class="card-body art-desc-container">
@@ -102,7 +102,7 @@
                     <div class="card bg-base-100 shadow-sm art-item item">
                         <a class="image-link" href="<?= BASE_PATH ?>/products/<?= $product->id_product ?>">
                             <figure class="art-item-image-container">
-                                <img src="<?=ASSETS_PATH?>/images/<?=$product->image?>">  
+                                <img src="<?=ASSETS_PATH?>/images/<?=e($product->image)?>" alt="<?=e($product->name)?>" loading="lazy" decoding="async">  
                             </figure>
 
                             <div class="card-body art-desc-container">
