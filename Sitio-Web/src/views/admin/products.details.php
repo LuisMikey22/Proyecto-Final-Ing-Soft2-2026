@@ -17,12 +17,12 @@
                 rounded-3xl bg-white figure-shadow">
             
             <img class="w-full h-full object-contain rounded-3xl" 
-                src="<?=ASSETS_PATH?>/images/<?=$product->image?>" 
-                alt="<?=$product->name?>">
+                src="<?=ASSETS_PATH?>/images/<?=e($product->image)?>" 
+                alt="<?=e($product->name)?>">
         </figure>
 
         <div class="w-[320px] flex flex-col justify-center gap-8 lg:w-2/3 w-full">
-            <h2 class="text-3xl font-bold text-teal-950"><?=$product->name?></h2>
+            <h2 class="text-3xl font-bold text-teal-950"><?=e($product->name)?></h2>
             <p class="text-sm text-teal-950"><?=$fiberContent?></p>
             <p class="text-2xl font-bold text-teal-950">$<?=$product->price?> MXN</p>
 
@@ -44,7 +44,7 @@
                 </a>
             <?php endif; ?>
 
-            <p class="text-teal-950 font-semibold mt-4"><?=$product->description?></p>
+            <p class="text-teal-950 font-semibold mt-4"><?=e($product->description)?></p>
         </div>
     </div>
 

@@ -19,7 +19,7 @@
             <div class="flex flex-col gap-4">
                 <div>
                     <p class="text-sm text-teal-700 font-semibold">Email:</p>
-                    <p class="text-lg text-teal-950"><?=$user->email?></p>
+                    <p class="text-lg text-teal-950"><?=e($user->email)?></p>
                 </div>
 
                 <?php if(isset($user->rol)) : ?>
@@ -32,7 +32,7 @@
                 <?php if(isset($user->description)) : ?>
                 <div>
                     <p class="text-sm text-teal-700 font-semibold">Descripción:</p>
-                    <p class="text-lg text-teal-950"><?=ucfirst($user->description)?></p>
+                    <p class="text-lg text-teal-950"><?=e(ucfirst($user->description))?></p>
                 </div>
                 <?php endif; ?>
             </div>

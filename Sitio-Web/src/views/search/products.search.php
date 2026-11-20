@@ -10,14 +10,14 @@
 
         if(!empty($foundProducts)) { //si encuentra productos según la búsqueda
             if($foundQuantity>1) {
-                echo '<h3 class="search-art-title">'.$foundQuantity.' resultados de “'.$searchValue.'“</h3>';
+                echo '<h3 class="search-art-title">'.$foundQuantity.' resultados de “'.e($searchValue).'“</h3>';
             }else {
-                echo '<h3 class="search-art-title">'.$foundQuantity.' resultado de “'.$searchValue.'“</h3>';
+                echo '<h3 class="search-art-title">'.$foundQuantity.' resultado de “'.e($searchValue).'“</h3>';
             }
             $carouselClass = "search-art-carousel-visible";
         }else {
             echo '<h3 class="search-art-title">0 resultados</h3>';
-            echo '<h5 class="search-art-subtitle">Tu búsqueda de “'.$searchValue.'“ no dio ningún resultado.</h5>';
+            echo '<h5 class="search-art-subtitle">Tu búsqueda de “'.e($searchValue).'“ no dio ningún resultado.</h5>';
             $carouselClass = "search-art-carousel-hidden";
         }
     ?>
@@ -32,8 +32,8 @@
                         </figure>
 
                         <div class="card-body art-desc-container">
-                            <p><h4 class="card-title art-desc"><?=$foundProductCard->name?></h4></p>
-                            <p><h4 class="card-title art-desc"><?=$foundProductCard->description?></h4></p>
+                            <p><h4 class="card-title art-desc"><?=e($foundProductCard->name)?></h4></p>
+                            <p><h4 class="card-title art-desc"><?=e($foundProductCard->description)?></h4></p>
                             <p><h4 class="card-actions art-price">$<?=$foundProductCard->price?> MXN</h4></p> 
                         </div>
                     </a>

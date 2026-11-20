@@ -17,7 +17,7 @@
                             </figure>
 
                             <div class="card-body art-desc-container">
-                                <p><h4 class="card-title art-desc"><?=$product->name?></h4></p>
+                                <p><h4 class="card-title art-desc"><?=e($product->name)?></h4></p>
                                 <p><h4 class="card-actions art-price">$<?=$product->price?> MXN</h4></p> 
                             </div>
                         </a>
@@ -70,7 +70,7 @@
                             </figure>
 
                             <div class="card-body art-desc-container">
-                                <p><h4 class="card-title art-desc"><?=$product->name?></h4></p>
+                                <p><h4 class="card-title art-desc"><?=e($product->name)?></h4></p>
                                 <p><h4 class="card-actions art-price">$<?=$product->price?> MXN</h4></p> 
                             </div>
                         </a>
@@ -106,7 +106,7 @@
                             </figure>
 
                             <div class="card-body art-desc-container">
-                                <p><h4 class="card-title art-desc"><?=$product->name?></h4></p>
+                                <p><h4 class="card-title art-desc"><?=e($product->name)?></h4></p>
                                 <p><h4 class="card-actions art-price">$<?=$product->price?> MXN</h4></p> 
                             </div>
                         </a>

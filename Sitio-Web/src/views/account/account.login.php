@@ -4,7 +4,7 @@
     }
 
     if (isset($_SESSION['login_error'])) {
-        echo '<div class="home-desc" style="padding: 1em 0 0 0;">'.$_SESSION['login_error'].'</div>';
+        echo '<div class="home-desc" style="padding: 1em 0 0 0;">'.e($_SESSION['login_error']).'</div>';
         unset($_SESSION['login_error']);
     }
 ?>

@@ -1,0 +1,80 @@
+{
+  "fecha_medicion": "2026-11-20",
+  "descripcion": "Linea base ANTES de la mejora significativa - Plan de Calidad ISO/IEC 25010",
+  "equipo": ["Luis Miguel Lucatero Perez", "Angel Gabriel Mendoza Villavicencio", "Axdiael Trinidad Cardenas"],
+  "rendimiento": {
+    "produccion_home": {
+      "url": "https://anuies.net/ehqa/public/",
+      "peticiones": 53,
+      "peso_total_mb": 5.3,
+      "peso_imagenes_mb": 5.2,
+      "imagenes_cargadas": 41,
+      "ttfb_ms": 1471,
+      "dom_content_loaded_ms": 2524,
+      "carga_completa_ms": 6279,
+      "recursos_fallidos": ["src/css/style.css (404)"],
+      "meta_plan_calidad_ms": 3000,
+      "cumple_meta": false
+    },
+    "produccion_detalle_producto": {
+      "url": "https://anuies.net/ehqa/public/products/1",
+      "peso_total_mb": 0.21,
+      "ttfb_ms": 2138,
+      "carga_completa_ms": 2412
+    },
+    "codigo_develop_local_home": {
+      "url": "http://localhost:8000/",
+      "peticiones": 41,
+      "peso_total_mb": 125.0,
+      "peso_imagenes_mb": 124.9,
+      "imagenes_png": 28,
+      "carga_completa_ms": 4329,
+      "nota": "El repo develop conserva los PNG originales (135.7 MB en disco, hasta 12 MB por imagen, 2253x2144 px). En produccion alguien sustituyo imagenes por versiones reducidas (~115 KB c/u), lo que explica la mejora de velocidad percibida sin registro en Git."
+    },
+    "lighthouse_produccion_home": {
+      "accesibilidad": 77,
+      "buenas_practicas": 100,
+      "seo": 80,
+      "fallas": ["image-alt", "landmark-one-main", "list", "listitem", "target-size"]
+    }
+  },
+  "seguridad": {
+    "vulnerabilidades_confirmadas": [
+      {
+        "id": "SEC-01",
+        "nombre": "Escalada de privilegios en registro (asignacion masiva de role)",
+        "prueba": "POST /account/register con role=admin y password=123",
+        "resultado_antes": "Usuario creado con role=admin (id_user=30, eliminado tras la prueba)",
+        "explotable": true
+      },
+      {
+        "id": "SEC-02",
+        "nombre": "XSS reflejado en el buscador",
+        "prueba": "GET /search?q=<script>alert(1)</script>",
+        "resultado_antes": "El script se imprime sin escapar en products.search.php",
+        "explotable": true
+      },
+      {
+        "id": "SEC-03",
+        "nombre": "Sin politica de longitud minima de contrasena",
+        "prueba": "Registro con password=123 (3 caracteres)",
+        "resultado_antes": "Aceptada sin validacion (meta del plan: >= 8 caracteres)",
+        "explotable": true
+      }
+    ],
+    "controles_existentes": ["password_hash con bcrypt", "consultas preparadas PDO", "RBAC requireAdmin en Dashboard", ".env fuera del control de versiones", "cero almacenamiento de tarjetas"]
+  },
+  "mantenibilidad": {
+    "pruebas_automatizadas": 0,
+    "cobertura_porcentaje": 0,
+    "ci": "inexistente",
+    "bugs_confirmados": [
+      "BUG-01: registro guarda username vacio (formulario envia name=user, controlador lee $_POST[username])",
+      "BUG-02: Script.js linea 89 usa e.key con parametro llamado event (ReferenceError al teclear en busqueda)",
+      "BUG-03: Dashboard::getWeeklyTrendsData prepara la consulta de visitas 2 veces y nunca la ejecuta (linea Visitas vacia)",
+      "BUG-04: Dashboard::getConversionFunnelData calcula filtro con columna inexistente added_at (codigo muerto)",
+      "BUG-05: nav.php enlaza css/style.css (no existe en public/) y scripts/script.js (archivo real: Script.js)",
+      "BUG-06: public/Index.php en mayuscula vs .htaccess que reescribe a index.php (falla en Linux)"
+    ]
+  }
+}

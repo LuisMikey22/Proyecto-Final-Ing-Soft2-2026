@@ -6,7 +6,7 @@
 
         <!-- Imagen -->
         <figure class="art-item-image-container" name="image" style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
-            <img src="<?= ASSETS_PATH ?>/images/<?= $product->image ?>">  
+            <img src="<?= ASSETS_PATH ?>/images/<?= e($product->image) ?>">  
         </figure>
 
         <!-- Datos -->

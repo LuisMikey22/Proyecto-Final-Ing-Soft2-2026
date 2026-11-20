@@ -22,4 +22,14 @@
         // Footer
         require $partialPath.'footer.php';
     }
+
+    /**
+     * Escapa una salida de texto para prevenir ataques XSS (OWASP Top 10).
+     * Debe usarse siempre que se imprima información capturada por usuarios.
+     * @param string|null $value Texto original (puede venir nulo de la BD).
+     * @return string Texto seguro para imprimir en HTML.
+     */
+    function e(?string $value): string {
+        return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+    }
 ?>
