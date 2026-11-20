@@ -1759,7 +1759,7 @@ body {
   justify-items: center;
   overflow-X: hidden;
   background-color: var(--color-white);
-  background-image: url("http://localhost:80/ProyectoFinalWeb2025/Sitio-Web/public/assets/images/yarnBackgroundTexture.svg");
+  background-image: url("assets/images/yarnBackgroundTexture.svg");
   background-size: auto;
   background-repeat: repeat;
   background-position: center;

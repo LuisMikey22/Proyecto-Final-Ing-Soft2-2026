@@ -1,0 +1,63 @@
+# Integración Continua del Plan de Calidad (Mantenibilidad - ISO/IEC 25010)
+# Ejecuta las pruebas unitarias con cobertura mínima del 70% en cada push.
+name: Pruebas unitarias
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+
+jobs:
+  phpunit:
+    name: PHPUnit + cobertura
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: anuiesne_ehqa_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Preparar PHP con Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_mysql, zip
+          coverage: xdebug
+
+      - name: Instalar dependencias de Composer
+        working-directory: Sitio-Web
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Crear el .env de pruebas
+        working-directory: Sitio-Web
+        run: |
+          cat > .env <<'EOF'
+          APP_URL=http://localhost
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_DATABASE=anuiesne_ehqa_test
+          DB_USERNAME=root
+          DB_PASSWORD=
+          DB_PORT=3306
+          DB_CHARSET=utf8mb4
+          EOF
+
+      - name: Importar el esquema oficial a la BD de pruebas
+        run: mysql -h 127.0.0.1 -u root anuiesne_ehqa_test < docs/calidad/evidencias/esquema-anuiesne_ehqa.sql
+
+      - name: Ejecutar pruebas unitarias (cobertura mínima 70%)
+        working-directory: Sitio-Web
+        run: vendor/bin/phpunit --coverage-text --min-coverage=70

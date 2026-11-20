@@ -35,7 +35,7 @@
 
             <?php if($isLoggedIn): ?>
                 <form action="<?= BASE_PATH ?>/cart/add" method="POST">
-                    <input type="hidden" name="product_id" value="<?= $product->id ?>">
+                    <input type="hidden" name="id_product" value="<?= $product->id_product ?>">
                     <button type="submit" class="add-button">Añadir al carrito</button>
                 </form>
             <?php else: ?>

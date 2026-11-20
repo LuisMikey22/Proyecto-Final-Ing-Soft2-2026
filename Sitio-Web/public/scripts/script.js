@@ -86,10 +86,9 @@ searchBarForm.addEventListener('submit', function(event) {
 
 
 searchBarInput.addEventListener('keydown', function(event) {
-    let pressedKey = e.key;
-    e.preventDefault();
-
-    if(pressedKey === 'Enter') {
+    // Corrección: el parámetro se llama event (antes usaba "e", que no existía
+    // y provocaba un ReferenceError al teclear en la barra de búsqueda)
+    if(event.key === 'Enter') {
         event.preventDefault(); // Evita el envío normal
         redirect();
     }
@@ -108,6 +107,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const toggleBtn = document.getElementById('chatbot-toggle-btn');
     const closeBtn = document.getElementById('chatbot-close-btn');
     const chatbotWindow = document.getElementById('chatbot-window');
+
+    // El chatbot solo existe en la página de inicio: en el resto de las
+    // páginas estos elementos no existen y no debe tronar el script.
+    if (!toggleBtn || !closeBtn || !chatbotWindow) {
+        return;
+    }
 
     // Función para alternar la visibilidad
     function toggleChat() {

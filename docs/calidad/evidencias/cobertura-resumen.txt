@@ -1,0 +1,26 @@
+﻿PHPUnit 12.5.45 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.12 with Xdebug 3.5.3
+Configuration: C:\Users\axdia\OneDrive\Documents\Proyecto predeterminado\ProyectoFinalWeb2025\Sitio-Web\phpunit.xml
+
+............................................                      44 / 44 (100%)
+
+Time: 00:02.159, Memory: 20.00 MB
+
+[30;42mOK (44 tests, 149 assertions)[0m
+
+
+[1;37;40mCode Coverage Report:      [0m
+[1;37;40m  2026-11-20 22:44:44      [0m
+[1;37;40m                           [0m
+[1;37;40m Summary:                  [0m
+[37;41m  Classes:  0.00% (0/4)    [0m
+[37;41m  Methods: 24.00% (6/25)   [0m
+[30;43m  Lines:   77.12% (246/319)[0m
+
+Dashboard
+  [30;43mMethods:  57.14% ( 4/ 7)[0m   [30;42mLines:  94.34% ( 50/ 53)[0m
+Product
+  [37;41mMethods:  14.29% ( 1/ 7)[0m   [30;43mLines:  82.79% (101/122)[0m
+User
+  [37;41mMethods:  14.29% ( 1/ 7)[0m   [30;43mLines:  79.38% ( 77/ 97)[0m

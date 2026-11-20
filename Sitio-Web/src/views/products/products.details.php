@@ -26,7 +26,7 @@
 
             <?php if($isLoggedIn): ?>
                 <form id="addToCartForm" action="<?=BASE_PATH?>/cart/add" method="POST" onsubmit="return showAddedMessage(event)">
-                    <input type="hidden" name="product_id" value="<?=$product->id?>">
+                    <input type="hidden" name="id_product" value="<?=$product->id_product?>">
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit" class="add-button">Añadir al carrito</button>
                 </form>
