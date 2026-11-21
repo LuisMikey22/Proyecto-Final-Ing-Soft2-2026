@@ -69,17 +69,33 @@ final class CartOrderTest extends TestCase {
         $this->assertCount(0, $this->cart->getUserCart($this->idUser));
     }
 
-    public function testCheckoutCreaPedidoPagadoYCierraElCarrito(): void {
+    private function checkoutSetup(): int {
         $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
         $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
+        return (int)$this->order->processCheckout($this->idUser, 'tarjeta');
+    }
 
-        $idOrder = $this->order->processCheckout($this->idUser, 'tarjeta');
-        $this->assertNotFalse($idOrder);
+    public function testCheckoutProcessCheckoutDevuelveIdValido(): void {
+        $idOrder = $this->checkoutSetup();
+        $this->assertGreaterThan(0, $idOrder);
+    }
 
-        $pedido = $this->order->getOrderById((int)$idOrder, $this->idUser);
-        $this->assertSame('paid', $pedido['status']);
-        $this->assertSame(600.00, (float)$pedido['total_amount']);
+    public function testCheckoutPedidoEstatusEsPaid(): void {
+        $idOrder = $this->checkoutSetup();
+        $pedido = $this->order->getOrderById($idOrder, $this->idUser);
+        $this->assertNotNull($pedido, 'El pedido debe existir para el usuario');
+        $this->assertSame('paid', (string)$pedido['status']);
+    }
 
+    public function testCheckoutPedidoTotalEs600(): void {
+        $idOrder = $this->checkoutSetup();
+        $pedido = $this->order->getOrderById($idOrder, $this->idUser);
+        $this->assertNotNull($pedido);
+        $this->assertEquals(600.00, (float)$pedido['total_amount'], 'Total: ' . var_export($pedido['total_amount'], true));
+    }
+
+    public function testCheckoutCarritoCerrado(): void {
+        $this->checkoutSetup();
         // El carrito activo quedó vacío (se cerró el anterior)
         $this->assertCount(0, $this->cart->getUserCart($this->idUser));
     }
