@@ -69,15 +69,34 @@ final class CartOrderTest extends TestCase {
         $this->assertCount(0, $this->cart->getUserCart($this->idUser));
     }
 
+    /**
+     * Prepara el carrito del usuario de pruebas (2 items) y ejecuta el checkout.
+     * @return int ID del pedido (0 si processCheckout falló).
+     */
     private function checkoutSetup(): int {
         $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
         $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
         return (int)$this->order->processCheckout($this->idUser, 'tarjeta');
     }
 
+    public function testCheckoutSetupCartTieneDosItems(): void {
+        $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
+        $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
+        $items = $this->cart->getUserCart($this->idUser);
+        $this->assertCount(2, $items);
+        $this->assertEquals([1, 3], array_column($items, 'id_product'));
+    }
+
     public function testCheckoutProcessCheckoutDevuelveIdValido(): void {
-        $idOrder = $this->checkoutSetup();
+        $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
+        $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
+        $idOrder = $this->order->processCheckout($this->idUser, 'tarjeta');
         $this->assertGreaterThan(0, $idOrder);
+    }
+
+    public function testCheckoutProcessCheckoutFalsoSiCarroVacio(): void {
+        // Sin items en el carrito, processCheckout debe devolver falso
+        $this->assertFalse($this->order->processCheckout($this->idUser, 'tarjeta'));
     }
 
     public function testCheckoutPedidoEstatusEsPaid(): void {
