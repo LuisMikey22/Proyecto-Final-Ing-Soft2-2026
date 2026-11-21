@@ -35,8 +35,10 @@ class Order {
             $id_cart = $cartInfo['id_cart'];
 
             // 2. CREAR LA VENTA (Esto alimenta tu Dashboard directamente)
-            $stmtOrder = $this->pdo->prepare("INSERT INTO orders (id_user, total_amount, status, created_at) VALUES (?, ?, 'paid', NOW())");
-            $stmtOrder->execute([$id_user, $total_amount]);
+            // shipping_address se inicializa en cadena vacía: en el esquema es
+            // NOT NULL sin default y el flujo de pago simulado no captura dirección.
+            $stmtOrder = $this->pdo->prepare("INSERT INTO orders (id_user, total_amount, status, shipping_address, created_at) VALUES (?, ?, 'paid', ?, NOW())");
+            $stmtOrder->execute([$id_user, $total_amount, '']);
             $id_order = $this->pdo->lastInsertId();
 
             // 3. Cerrar el carrito (Lo pasamos a 'completed' para que el usuario inicie uno nuevo vacío)

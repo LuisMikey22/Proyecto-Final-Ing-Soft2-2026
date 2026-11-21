@@ -127,21 +127,6 @@ jobs:
         run: |
           if grep -q "CartOrderTest::testRemoveItemNoAfectaCarritosDeOtrosUsuarios" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
-      - name: PROBEF CartOrderTest-testLA1lastIdInsertUsuario
-        working-directory: Sitio-Web
-        run: |
-          if grep -q "CartOrderTest::testLA1lastIdInsertUsuario" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
-
-      - name: PROBEF CartOrderTest-testLA2lastIdInsertOrdenPreparado
-        working-directory: Sitio-Web
-        run: |
-          if grep -q "CartOrderTest::testLA2lastIdInsertOrdenPreparado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
-
-      - name: PROBEF CartOrderTest-testLA3lastIdInsertOrdenExec
-        working-directory: Sitio-Web
-        run: |
-          if grep -q "CartOrderTest::testLA3lastIdInsertOrdenExec" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
-
       - name: PROBEF CartOrderTest-testProbeSumaTotalCarritoEnCI
         working-directory: Sitio-Web
         run: |
