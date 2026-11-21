@@ -58,9 +58,24 @@ jobs:
       - name: Importar el esquema oficial a la BD de pruebas
         run: mysql -h 127.0.0.1 -u root anuiesne_ehqa_test < docs/calidad/evidencias/esquema-anuiesne_ehqa.sql
 
+      - name: PROBE php-m-xdebug
+        run: php -m | grep -qi xdebug && exit 0 || exit 1
+
+      - name: PROBE pdo-mysql
+        run: php -m | grep -qi pdo_mysql && exit 0 || exit 1
+
+      - name: PROBE vendor-phpunit-exec
+        working-directory: Sitio-Web
+        run: test -x vendor/bin/phpunit && exit 0 || exit 1
+
       - name: Ejecutar pruebas unitarias (ejecucion phpunit)
         working-directory: Sitio-Web
         run: vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
+
+      - name: PROBE phpunit-ok-marker
+        working-directory: Sitio-Web
+        run: |
+          grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt && exit 0 || exit 1
 
       - name: Verificar cobertura (umbral 70%)
         working-directory: Sitio-Web
