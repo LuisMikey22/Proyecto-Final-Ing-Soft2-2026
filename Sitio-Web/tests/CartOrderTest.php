@@ -84,7 +84,7 @@ final class CartOrderTest extends TestCase {
         $this->cart->addItem($this->idUser, 1, 2);
         $this->cart->addItem($this->idUser, 3, 1);
         $pdo = testPDO();
-        $r = $pdo->query("SELECT c.id_cart, SUM(ci.quantity * ci.price_at_addition) as total, typeof(SUM(ci.quantity * ci.price_at_addition)) AS t FROM carts c JOIN cart_items ci ON c.id_cart = ci.id_cart WHERE c.id_user = " . (int)$this->idUser . " AND c.status = 'active' GROUP BY c.id_cart");
+        $r = $pdo->query("SELECT c.id_cart, SUM(ci.quantity * ci.price_at_addition) as total FROM carts c JOIN cart_items ci ON c.id_cart = ci.id_cart WHERE c.id_user = " . (int)$this->idUser . " AND c.status = 'active' GROUP BY c.id_cart");
         $row = $r->fetch(PDO::FETCH_ASSOC);
         $this->assertNotFalse($row, 'La query del carrito no devolvio fila');
         $this->assertNotNull($row['total'], 'El total debe no ser NULL');
