@@ -49,18 +49,30 @@
   },
   "mantenibilidad": {
     "pruebas_automatizadas_antes": 0,
-    "pruebas_automatizadas_despues": 59,
-    "aserciones": 191,
+    "pruebas_automatizadas_despues": 66,
+    "aserciones": 201,
     "cobertura_antes_porcentaje": 0,
     "cobertura_despues_porcentaje": 77.10,
     "meta_plan_calidad_porcentaje": 70,
     "cumple_meta": true,
     "pruebas_ejecutadas": {
       "archivos": ["ValidationTest", "UserModelTest", "ProductModelTest", "DashboardModelTest", "AuthHelpersTest", "FunctionsTest", "CartOrderTest", "ReviewInventoryTest", "ChatbotTest"],
-      "salida": "OK (59 tests, 191 assertions)"
+      "salida": "OK (66 tests, 201 assertions)"
+    },
+    "ci_github": {
+      "status": "green",
+      "ultima_ejecucion": "0ee818db (desarrollo, push 8e219c8..0ee818d)",
+      "observacion": "Fue necesario corregir realmente un bug encontrado por CI: la insercion de orders en Order::processCheckout no provvedía shipping_address (TEXT NOT NULL sin default), que MySQL 8 strict rechaza; MariaDB 10.4 local lo tolerateaba. Ver 'bug_encontrado_en_ci'."
     },
     "cobertura_por_clase": {"Dashboard": 94.34, "Product": 82.79, "User": 79.38},
-    "ci": "GitHub Actions (.github/workflows/pruebas.yml): PHPUnit + cobertura mínima 70% en cada push a develop/main",
+    "ci": "GitHub Actions (.github/workflows/pruebas.yml): ejecucion phpunit + verificacion de cobertura >= 70% en cada push a develop/main",
+    "bug_encontrado_en_ci": {
+      "id": "CI-01",
+      "descripcion": "PHPUnit 12.5 en CI (PHP 8.3/MySQL 8.0) fallaba en CartOrderTest::testCheckoutProcessCheckoutDevuelveIdValido (Failed asserting...), mientras que todo pasa localmente (PHP 8.5/MariaDB 10.4). El diagnostico uso probes por test: PROBEF CartOrderTest-testCheckoutProcessCheckoutDevuelveIdValido era el primer fallo; el resto de las pruebas de carrito, incluyendo la lectura de carritos y insertions de items, pasaban.",
+      "causa_raiz": "Order::processCheckout ejecutaba INSERT INTO orders (id_user, total_amount, status, created_at) VALUES (?, ?, 'paid', NOW()) — la columna orders.shipping_address es TEXT NOT NULL sin valor por defecto. MySQL 8 en modo estricto lanza SQLSTATE[23000] (no hay default), la excepcion quedaba atrapada por el catch de processCheckout que devuelve false → assertGreaterThan(0, false) falla. MariaDB 10.4 (XAMPP local) tolera la insercion sin valor.",
+      "correccion": "Insertar shipping_address = '' en la insercion de orders (Sin_cambio de esquema — la BD sigue con 19 tablas).",
+      "validacion": "66/66 pruebas verdes localmente; CI verde en 0ee818db con todos los pasos OK."
+    },
     "bugs_corregidos": [
       "BUG-01: username vacío en registro (name=user vs $_POST[username])",
       "BUG-02: ReferenceError e.key en la búsqueda con Enter",
@@ -73,11 +85,14 @@
       "BUG-09: campos del formulario de carrito no coincidían con el controlador (product_id vs id_product)",
       "BUG-10: script inline del carrito tronaba en estado vacío (IDs fijos null)",
       "BUG-11: cantidad del carrito no tenía punto de actualización (POST /cart/update/:id añadido)",
-      "BUG-12: success_msg del carrito no escapado"
+      "BUG-12: success_msg del carrito no escapado",
+      "BUG-13: die() de depuración exponía errores de BD al usuario (Cart/Order/Review/Inventory)",
+      "BUG-14: CI-01: shipping_address NOT NULL sin default en INSERT de orders"
     ],
     "errores_consola_navegador": {"antes": "404 style.css + 502 SVG localhost + TypeError chatbot", "despues": "0 errores en home, login, detalle de producto, búsqueda y carrito"},
     "findings_adicionales": [
-      "El servidor local tiene el reloj de PHP ~1 día adelantado respecto al de MySQL (lo encontré al probar tendencias de 'hoy'); en producción no debería ocurrir"
+      "El servidor local tiene el reloj de PHP ~1 día adelantado respecto al de MySQL (lo encontré al probar tendencias de 'hoy'); en producción no debería ocurrir",
+      "CI-02 (descubrimiento): el workflow de GitHub tenía un error de sintaxis YAML (#L76: `: ` en string no escapado) y luego PHPUnit 12 no tiene --min-coverage; ambos corregidos."
     ]
   }
 }
