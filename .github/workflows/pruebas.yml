@@ -82,27 +82,26 @@ jobs:
           vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1 || echo "PHPUNIT_EXIT=$?" > ../docs/calidad/evidencias/probe-phpunit-exit.txt
           ls -la ../docs/calidad/evidencias/ | grep -i cobertura || true
 
-      - name: PROBE P1 reporte contiene OK marker
+      - name: PROBE Q1 reporte existe y no vacio
         working-directory: Sitio-Web
         run: |
-          if grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then exit 0; else exit 1; fi
+          if [ -s ../docs/calidad/evidencias/cobertura-resumen-ci.txt ]; then exit 0; else echo "REPORTE VACIO/AUSENTE"; exit 1; fi
 
-      - name: PROBE P2 reporte contiene Tests marker
+      - name: PROBE Q2 reporte contiene Tests marker
         working-directory: Sitio-Web
         run: |
-          if grep -q "Tests:" ../docs/calidad/evisencias/cobertura-resumen-ci.txt 2>/dev/null || grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then exit 0; else exit 1; fi
+          if grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
 
-      - name: PROBE P3a reporte libre de errores
+      - name: PROBE Q3 reporte contiene OK marker
         working-directory: Sitio-Web
         run: |
-          if grep -qiE "(fatal error|could not find driver|class .+ not found|SQLSTATE)" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then exit 1; else exit 0; fi
+          if grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
 
-      - name: PROBE P3b phpunit exit code cero
+      - name: PROBE Q4 phpunit exit code cero
         working-directory: Sitio-Web
         run: |
-          code=$(cat ../docs/calidad/evisencias/probe-phpunit-exit.txt 2>/dev/null | sed 's/PHPUNIT_EXIT=//'; cat ../docs/calidad/evidencias/probe-phpunit-exit.txt 2>/dev/null | sed 's/PHPUNIT_EXIT=//')
-          echo "phpunit exit code: ${code:-0}"
-          if [ -z "$code" ]; then echo "EXIT CODE NO CAPTURADO"; exit 1; fi
+          code=$(sed -n 's/PHPUNIT_EXIT=//p' ../docs/calidad/evidencias/probe-phpunit-exit.txt 2>/dev/null)
+          if [ -z "$code" ]; then echo "NO EXIT CODE CAPTURADO"; exit 1; fi
           if [ "$code" = "0" ]; then exit 0; else exit 1; fi
 
       - name: Verificar cobertura (umbral 70%)
