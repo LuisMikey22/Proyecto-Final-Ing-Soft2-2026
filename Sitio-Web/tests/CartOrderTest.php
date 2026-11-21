@@ -80,6 +80,33 @@ final class CartOrderTest extends TestCase {
     }
 
 
+
+    public function testLA1lastIdInsertUsuario(): void {
+        $userModel = new User(testPDO());
+        $userModel->add(['username' => 'LA1 PHPUnit', 'email' => 'la1@t.com', 'password' => 'passwordseguro123', 'role' => 'client', 'description' => '']);
+        $id = (int)testPDO()->lastInsertId();
+        $userModel->delete($id);
+        $this->assertGreaterThan(0, $id, 'lastInsertId tras INSERT de usuario debe ser > 0');
+    }
+
+    public function testLA2lastIdInsertOrdenPreparado(): void {
+        $pdo = testPDO();
+        $pdo->prepare("INSERT INTO orders (id_user, total_amount, status, created_at) VALUES (?, ?, 'paid', NOW())")->execute([$this->idUser, 99.50]);
+        $id = (int)$pdo->lastInsertId();
+        $row = $pdo->query("SELECT id_order FROM orders WHERE id_order = $id")->fetch(PDO::FETCH_ASSOC);
+        $this->assertGreaterThan(0, $id, 'lastInsertId tras INSERT preparado de orders debe ser > 0');
+        $this->assertNotFalse($row, 'La orden insertada debe existir');
+    }
+
+    public function testLA3lastIdInsertOrdenExec(): void {
+        $pdo = testPDO();
+        $pdo->exec("INSERT INTO orders (id_user, total_amount, status, created_at) VALUES (" . (int)$this->idUser . ", 99.50, 'paid', NOW())");
+        $id = (int)$pdo->lastInsertId();
+        $row = $pdo->query("SELECT id_order FROM orders WHERE id_order = $id")->fetch(PDO::FETCH_ASSOC);
+        $this->assertGreaterThan(0, $id, 'lastInsertId tras INSERT exec de orders debe ser > 0');
+        $this->assertNotFalse($row, 'La orden insertada debe existir');
+    }
+
     public function testProbeSumaTotalCarritoEnCI(): void {
         $this->cart->addItem($this->idUser, 1, 2);
         $this->cart->addItem($this->idUser, 3, 1);
