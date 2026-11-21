@@ -127,10 +127,25 @@ jobs:
         run: |
           if grep -q "CartOrderTest::testRemoveItemNoAfectaCarritosDeOtrosUsuarios" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
-      - name: PROBEF CartOrderTest-testCheckoutCreaPedidoPagadoYCierraElCarrito
+      - name: PROBEF CartOrderTest-testCheckoutProcessCheckoutDevuelveIdValido
         working-directory: Sitio-Web
         run: |
-          if grep -q "CartOrderTest::testCheckoutCreaPedidoPagadoYCierraElCarrito" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+          if grep -q "CartOrderTest::testCheckoutProcessCheckoutDevuelveIdValido" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutPedidoEstatusEsPaid
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutPedidoEstatusEsPaid" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutPedidoTotalEs600
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutPedidoTotalEs600" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutCarritoCerrado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutCarritoCerrado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
       - name: PROBEF CartOrderTest-testCheckoutConCarritoVacioDevuelveFalso
         working-directory: Sitio-Web
