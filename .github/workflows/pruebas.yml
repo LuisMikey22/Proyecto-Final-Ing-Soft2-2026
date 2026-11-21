@@ -82,28 +82,300 @@ jobs:
           vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1 || echo "PHPUNIT_EXIT=$?" > ../docs/calidad/evidencias/probe-phpunit-exit.txt
           ls -la ../docs/calidad/evidencias/ | grep -i cobertura || true
 
-      - name: RA1 reporte contiene "Failed asserting"
+      - name: PROBEF AuthHelpersTest-testSinSesionNoEstaLogueado
         working-directory: Sitio-Web
         run: |
-          if grep -q "Failed asserting" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then echo "RA1: FALLO POR ASSERTION"; exit 1; else exit 0; fi
+          if grep -q "AuthHelpersTest::testSinSesionNoEstaLogueado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
-      - name: RA2 reporte contiene error critico
+      - name: PROBEF AuthHelpersTest-testConSesionEstaLogueado
         working-directory: Sitio-Web
         run: |
-          if grep -qiE "(PHP Fatal error|Uncaught Error|could not find driver|SQLSTATE|No tests executed)" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then echo "RA2: FALLO POR ERROR"; exit 1; else exit 0; fi
+          if grep -q "AuthHelpersTest::testConSesionEstaLogueado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
-      - name: RA3 reporte completo sin marcador OK
+      - name: PROBEF AuthHelpersTest-testClienteNoEsAdmin
         working-directory: Sitio-Web
         run: |
-          if grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then if ! grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then echo "RA3: COMPLETADO SIN OK"; exit 1; else exit 0; fi; else exit 0; fi
+          if grep -q "AuthHelpersTest::testClienteNoEsAdmin" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
-      - name: RA4 phpunit exit code cero
+      - name: PROBEF AuthHelpersTest-testAdminEsAdmin
         working-directory: Sitio-Web
         run: |
-          code=$(sed -n 's/PHPUNIT_EXIT=//p' ../docs/calidad/evidencias/probe-phpunit-exit.txt 2>/dev/null)
-          echo "phpunit exit code: ${code:-0}"
-          if [ -z "$code" ]; then echo "NO EXIT CODE CAPTURADO"; exit 1; fi
-          if [ "$code" = "0" ]; then exit 0; else echo "RA4: PHPUNIT FALLO con codigo $code"; exit 1; fi
+          if grep -q "AuthHelpersTest::testAdminEsAdmin" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF AuthHelpersTest-testRequerirAutenticacionDejaPasarAlUsuarioLogueado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "AuthHelpersTest::testRequerirAutenticacionDejaPasarAlUsuarioLogueado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF AuthHelpersTest-testRequireAdminDejaPasarAlAdministrador
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "AuthHelpersTest::testRequireAdminDejaPasarAlAdministrador" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testAddItemCreaCarritoActivoYPrecioCongelado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testAddItemCreaCarritoActivoYPrecioCongelado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testAddItemRepetidoSumaCantidad
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testAddItemRepetidoSumaCantidad" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testRemoveItemNoAfectaCarritosDeOtrosUsuarios
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testRemoveItemNoAfectaCarritosDeOtrosUsuarios" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutCreaPedidoPagadoYCierraElCarrito
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutCreaPedidoPagadoYCierraElCarrito" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutConCarritoVacioDevuelveFalso
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutConCarritoVacioDevuelveFalso" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testGetOrderByIdDeOtroUsuarioDevuelveFalso
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testGetOrderByIdDeOtroUsuarioDevuelveFalso" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testRequestReturnCambiaElEstado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testRequestReturnCambiaElEstado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testUpdateItemActualizaLaCantidad
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testUpdateItemActualizaLaCantidad" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testGetUserOrdersDevuelveElHistorial
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testGetUserOrdersDevuelveElHistorial" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ChatbotTest-testGetMainOptionsDevuelveOpcionesActivas
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ChatbotTest::testGetMainOptionsDevuelveOpcionesActivas" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ChatbotTest-testGetExtraQuestionsDevuelveLasDelOption
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ChatbotTest::testGetExtraQuestionsDevuelveLasDelOption" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ChatbotTest-testLogInteractionRegistraElClic
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ChatbotTest::testLogInteractionRegistraElClic" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testKpisDelAnioCalculanIngresos
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testKpisDelAnioCalculanIngresos" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testPeriodoInvalidoNoRompeLaConsulta
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testPeriodoInvalidoNoRompeLaConsulta" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testEmbudoTieneLasCuatroEtapas
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testEmbudoTieneLasCuatroEtapas" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testDistribucionChatbotDelAnioNoEstaVacia
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testDistribucionChatbotDelAnioNoEstaVacia" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testTendenciasSemanalesTienenSieteDias
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testTendenciasSemanalesTienenSieteDias" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testTendenciasReflejanVisitasDeHoy
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testTendenciasReflejanVisitasDeHoy" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF DashboardModelTest-testAlertasDeStockUsanElUmbralDelProducto
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "DashboardModelTest::testAlertasDeStockUsanElUmbralDelProducto" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF FunctionsTest-testViewRenderizaLaPlantillaConNavYFooter
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "FunctionsTest::testViewRenderizaLaPlantillaConNavYFooter" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF FunctionsTest-testViewRenderizaLaVistaDeError500
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "FunctionsTest::testViewRenderizaLaVistaDeError500" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testGetAllDevuelveElCatalogoConCategoriaEImagen
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testGetAllDevuelveElCatalogoConCategoriaEImagen" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testBusquedaVaciaNoConsultaLaBaseDeDatos
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testBusquedaVaciaNoConsultaLaBaseDeDatos" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testBusquedaEncuentraPorNombreSinDistinguirMayusculas
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testBusquedaEncuentraPorNombreSinDistinguirMayusculas" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testBusquedaSinResultadosDevuelveCero
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testBusquedaSinResultadosDevuelveCero" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testFindByIdDevuelveElProducto
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testFindByIdDevuelveElProducto" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testFindByIdInvalidoDevuelveNulo
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testFindByIdInvalidoDevuelveNulo" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testAddCreaProductoConImagenPrincipal
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testAddCreaProductoConImagenPrincipal" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testUpdateCambiaNombreYPrecio
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testUpdateCambiaNombreYPrecio" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testDeleteEliminaElProducto
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testDeleteEliminaElProducto" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ProductModelTest-testUpdateConIdInvalidoDevuelveFalso
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ProductModelTest::testUpdateConIdInvalidoDevuelveFalso" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ReviewInventoryTest-testAddReviewGuardaYGetAllReviewsLaDevuelve
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ReviewInventoryTest::testAddReviewGuardaYGetAllReviewsLaDevuelve" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ReviewInventoryTest-testInventarioOrdenaPorStockAscendente
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ReviewInventoryTest::testInventarioOrdenaPorStockAscendente" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ReviewInventoryTest-testAddStockSumaLaCantidad
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ReviewInventoryTest::testAddStockSumaLaCantidad" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testAddGuardaLaContrasenaConHash
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testAddGuardaLaContrasenaConHash" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testFindByEmailDevuelveElUsuarioCorrecto
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testFindByEmailDevuelveElUsuarioCorrecto" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testFindByEmailInexistenteDevuelveNulo
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testFindByEmailInexistenteDevuelveNulo" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testFindByIdInvalidoDevuelveNulo
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testFindByIdInvalidoDevuelveNulo" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testGetAllDevuelveUsuariosRegistrados
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testGetAllDevuelveUsuariosRegistrados" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testFindByIdDevuelveElUsuarioCreado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testFindByIdDevuelveElUsuarioCreado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testUpdateConIdInvalidoDevuelveFalso
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testUpdateConIdInvalidoDevuelveFalso" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testUpdateSinPasswordConservaElHash
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testUpdateSinPasswordConservaElHash" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF UserModelTest-testDeleteEliminaElRegistro
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "UserModelTest::testDeleteEliminaElRegistro" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testPasswordCortaEsRechazada
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testPasswordCortaEsRechazada" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testPasswordDeOchoCaracteresEsAceptada
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testPasswordDeOchoCaracteresEsAceptada" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testEmailValidoEsAceptado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testEmailValidoEsAceptado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testEmailInvalidoEsRechazado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testEmailInvalidoEsRechazado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testUsernameVacioEsRechazado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testUsernameVacioEsRechazado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testUsernameValidoEsAceptado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testUsernameValidoEsAceptado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testUsernameDemasiadoLargoEsRechazado
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testUsernameDemasiadoLargoEsRechazado" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testEscapeNeutralizaScriptXss
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testEscapeNeutralizaScriptXss" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testEscapeConvierteComillas
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testEscapeConvierteComillas" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF ValidationTest-testEscapeDeNuloDevuelveCadenaVacia
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "ValidationTest::testEscapeDeNuloDevuelveCadenaVacia" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
       - name: Verificar cobertura (umbral 70%)
         working-directory: Sitio-Web
