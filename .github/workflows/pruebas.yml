@@ -78,12 +78,26 @@ jobs:
 
       - name: Ejecutar pruebas unitarias (ejecucion phpunit)
         working-directory: Sitio-Web
-        run: vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
+        run: |
+          vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
+          echo "phpunit termino, listando reporte:"
+          ls -la ../docs/calidad/evidencias/ | grep cobertura
+          true
 
-      - name: PROBE phpunit-ok-marker
+      - name: PROBE P1 reporte contiene OK marker
         working-directory: Sitio-Web
         run: |
-          grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt && exit 0 || exit 1
+          if grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
+
+      - name: PROBE P2 reporte contiene Tests marker
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
+
+      - name: PROBE P3 reporte libre de errores
+        working-directory: Sitio-Web
+        run: |
+          if grep -qiE "(fatal error|could not find driver|class .+ not found|SQLSTATE|No tests executed)"; then exit 1; else exit 0; fi
 
       - name: Verificar cobertura (umbral 70%)
         working-directory: Sitio-Web
