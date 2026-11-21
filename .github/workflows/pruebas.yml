@@ -68,6 +68,21 @@ jobs:
         working-directory: Sitio-Web
         run: test -x vendor/bin/phpunit && exit 0 || exit 1
 
+      - name: PROBE phpunit-version
+        working-directory: Sitio-Web
+        run: vendor/bin/phpunit --version
+
+      - name: PROBE pdo-connect
+        run: php -r 'require_once "Sitio-Web/src/config/database.php"; $pdo = getPDO(); echo "PDO_CONNECT: " . $pdo->query("SELECT DATABASE() as d")->fetchColumn() . PHP_EOL;'
+
+      - name: PROBE reporte-no-error
+        working-directory: Sitio-Web
+        run: |
+          if grep -qiE "(fatal|uncaught|error:|sqlstate|could not find driver|class .+ not found)" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then
+            echo "REPORTE CON ERROR"; exit 1
+          fi
+          echo "REPORTE LIMPIO (o sin salida)"; exit 0
+
       - name: Ejecutar pruebas unitarias (ejecucion phpunit)
         working-directory: Sitio-Web
         run: vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
