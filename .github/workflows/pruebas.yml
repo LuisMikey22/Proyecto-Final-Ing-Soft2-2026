@@ -60,4 +60,11 @@ jobs:
 
       - name: Ejecutar pruebas unitarias (cobertura mínima 70%)
         working-directory: Sitio-Web
-        run: vendor/bin/phpunit --coverage-text --min-coverage=70
+        run: |
+          vendor/bin/phpunit --coverage-text 2>&1 | Tee-Object -FilePath ../docs/calidad/evidencias/cobertura-resumen-ci.txt
+          $report = Get-Content ../docs/calidad/evidencias/cobertura-resumen-ci.txt -Raw
+          $match = $report -match 'Lines:\s+([\d.]+)%'
+          if (-not $match) { throw "No se pudo leer el porcentaje de cobertura del reporte" }
+          $pct = [double]$match.Groups[1].Value
+          if ($pct -lt 70) { throw "Cobertura de ${pct}% está por debajo del mínimo del 70%" }
+          "Línea base de cobertura: ${pct}% (>= 70)"

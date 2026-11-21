@@ -49,12 +49,16 @@
   },
   "mantenibilidad": {
     "pruebas_automatizadas_antes": 0,
-    "pruebas_automatizadas_despues": 44,
-    "aserciones": 149,
+    "pruebas_automatizadas_despues": 59,
+    "aserciones": 191,
     "cobertura_antes_porcentaje": 0,
-    "cobertura_despues_porcentaje": 77.12,
+    "cobertura_despues_porcentaje": 77.10,
     "meta_plan_calidad_porcentaje": 70,
     "cumple_meta": true,
+    "pruebas_ejecutadas": {
+      "archivos": ["ValidationTest", "UserModelTest", "ProductModelTest", "DashboardModelTest", "AuthHelpersTest", "FunctionsTest", "CartOrderTest", "ReviewInventoryTest", "ChatbotTest"],
+      "salida": "OK (59 tests, 191 assertions)"
+    },
     "cobertura_por_clase": {"Dashboard": 94.34, "Product": 82.79, "User": 79.38},
     "ci": "GitHub Actions (.github/workflows/pruebas.yml): PHPUnit + cobertura mínima 70% en cada push a develop/main",
     "bugs_corregidos": [
@@ -66,8 +70,14 @@
       "BUG-06: Index.php mayúscula vs .htaccess (renombrado a index.php)",
       "BUG-07: script del chatbot tronaba en páginas sin botón de chatbot",
       "BUG-08: URL http://localhost hardcodeada en el CSS (yarnBackgroundTexture.svg)",
-      "BUG-09: campos del formulario de carrito no coincidían con el controlador (product_id vs id_product)"
+      "BUG-09: campos del formulario de carrito no coincidían con el controlador (product_id vs id_product)",
+      "BUG-10: script inline del carrito tronaba en estado vacío (IDs fijos null)",
+      "BUG-11: cantidad del carrito no tenía punto de actualización (POST /cart/update/:id añadido)",
+      "BUG-12: success_msg del carrito no escapado"
     ],
-    "errores_consola_navegador": {"antes": "404 style.css + 502 SVG localhost + TypeError chatbot", "despues": "0 errores en home, login, detalle de producto y búsqueda"}
+    "errores_consola_navegador": {"antes": "404 style.css + 502 SVG localhost + TypeError chatbot", "despues": "0 errores en home, login, detalle de producto, búsqueda y carrito"},
+    "findings_adicionales": [
+      "El servidor local tiene el reloj de PHP ~1 día adelantado respecto al de MySQL (lo encontré al probar tendencias de 'hoy'); en producción no debería ocurrir"
+    ]
   }
 }
