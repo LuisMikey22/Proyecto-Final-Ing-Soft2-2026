@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../Models/User.php';
 require_once __DIR__ . '/../helpers/functions.php';
 require_once __DIR__ . '/../helpers/validation.php';
+require_once __DIR__ . '/../helpers/auth.php';
 
 /**
  * Controlador encargado de la gestión de usuarios, perfiles y autenticación.
@@ -35,17 +36,22 @@ class UsersController {
 
     /**
      * Procesa la solicitud de registro de un nuevo usuario.
-     * Aplica las validaciones del Plan de Calidad: contraseña >= 8 caracteres,
-     * correo válido y rol forzado a 'client' (nunca se acepta el rol del formulario,
-     * para evitar la escalada de privilegios SEC-01).
+     * Aplica las validaciones del Plan de Calidad: contraseña >= 8 caracteres y
+     * correo válido. El rol solo puede elegirse cuando un administrador crea la
+     * cuenta desde el panel; el registro público siempre nace como 'client'
+     * (corrige la escalada de privilegios SEC-01 sin perder la función de admin).
      * @return void
      */
     public function registerUser() {
+        // Solo un admin autenticado puede asignar el rol admin; cualquier otro caso = client
+        $roleSolicitado = $_POST['role'] ?? 'client';
+        $roleFinal = (esAdmin() && $roleSolicitado === 'admin') ? 'admin' : 'client';
+
         $data = [
             'username'    => trim($_POST['username'] ?? ''),
             'email'       => trim($_POST['email'] ?? ''),
             'password'    => $_POST['password'] ?? '',
-            'role'        => 'client', // Rol forzado: el registro público siempre crea clientes
+            'role'        => $roleFinal,
             'description' => $_POST['description'] ?? ''
         ];
 

@@ -1,0 +1,73 @@
+{
+  "fecha_medicion": "2026-11-20",
+  "descripcion": "Métricas DESPUÉS de la mejora significativa - comparación con linea-base-antes.json",
+  "entorno": "Local (XAMPP, PHP 8.5, MariaDB 10.4, misma máquina y BD que la medición ANTES)",
+  "rendimiento": {
+    "home_local": {
+      "antes": {"peso_total_mb": 125.0, "imagenes_cargadas": 28, "carga_completa_ms": 4329},
+      "despues": {"peso_total_mb": 0.71, "imagenes_cargadas_inicialmente": 9, "carga_completa_ms": 280},
+      "reduccion_peso_porcentaje": 99.4,
+      "reduccion_tiempo_porcentaje": 93.5,
+      "nota": "Lazy loading: el navegador solo descarga las imágenes visibles al inicio; el resto se carga al desplazar el carrusel."
+    },
+    "archivos_de_imagenes": {
+      "antes_mb": 135.6,
+      "despues_mb": 2.1,
+      "reduccion_porcentaje": 98.5,
+      "tecnica": "PNG/JPEG -> WebP (calidad 82) + redimensionado a máximo 1000 px",
+      "detalle": "conversion-imagenes.json"
+    },
+    "dashboard": {
+      "consultas_grafica_tendencias_antes": 14,
+      "consultas_grafica_tendencias_despues": 2,
+      "filtro_temporal_antes": "Recarga completa de la página (HTML + CSS + JS + imágenes)",
+      "filtro_temporal_despues": "Petición Fetch a /api/dashboard/data que devuelve solo un JSON (~1 KB)",
+      "bug_serie_visitas_vacias": "Corregido (la consulta ahora sí se ejecuta)",
+      "verificacion_ajax": "Marca en memoria window.__sinRecarga sobrevivió al cambio de periodo: no hubo recarga de página"
+    },
+    "produccion": {
+      "antes_home": {"peso_total_mb": 5.3, "carga_completa_ms": 6279, "ttfb_ms": 1471},
+      "despues_home": "PENDIENTE: se medirá tras el despliegue en anuies.net (mismo entorno, comparación válida)",
+      "meta_plan_calidad_ms": 3000
+    }
+  },
+  "seguridad": {
+    "vulnerabilidades_explotables_antes": 3,
+    "vulnerabilidades_explotables_despues": 0,
+    "pruebas_regresion": [
+      {"id": "SEC-01", "prueba": "POST /account/register con role=admin", "antes": "Usuario creado como admin", "despues": "Usuario creado con role=client (rol forzado en el controlador)"},
+      {"id": "SEC-02", "prueba": "GET /search?q=<script>alert(1)</script>", "antes": "Script reflejado sin escapar", "despues": "Script escapado con htmlspecialchars (e())"},
+      {"id": "SEC-03", "prueba": "Registro con password=123", "antes": "Aceptada", "despues": "Rechazada: 'La contraseña debe tener al menos 8 caracteres'"}
+    ],
+    "controles_nuevos": [
+      "Límite de intentos de login: 5 fallos = bloqueo de 60 segundos (verificado: intento 6 bloqueado)",
+      "session_regenerate_id(true) al iniciar sesión y al registrarse (previene fijación de sesión)",
+      "Validación de correo con filter_var y username no vacío/máx 100 caracteres",
+      "Escape de salidas en buscador, catálogo, detalle y vistas admin",
+      "Endpoint del Dashboard responde 401 sin sesión y 403 sin rol admin (verificado)"
+    ]
+  },
+  "mantenibilidad": {
+    "pruebas_automatizadas_antes": 0,
+    "pruebas_automatizadas_despues": 44,
+    "aserciones": 149,
+    "cobertura_antes_porcentaje": 0,
+    "cobertura_despues_porcentaje": 77.12,
+    "meta_plan_calidad_porcentaje": 70,
+    "cumple_meta": true,
+    "cobertura_por_clase": {"Dashboard": 94.34, "Product": 82.79, "User": 79.38},
+    "ci": "GitHub Actions (.github/workflows/pruebas.yml): PHPUnit + cobertura mínima 70% en cada push a develop/main",
+    "bugs_corregidos": [
+      "BUG-01: username vacío en registro (name=user vs $_POST[username])",
+      "BUG-02: ReferenceError e.key en la búsqueda con Enter",
+      "BUG-03: serie de visitas vacía en la gráfica de tendencias",
+      "BUG-04: código muerto con columna inexistente added_at",
+      "BUG-05: enlaces rotos css/style.css y scripts/script.js (mayúsculas)",
+      "BUG-06: Index.php mayúscula vs .htaccess (renombrado a index.php)",
+      "BUG-07: script del chatbot tronaba en páginas sin botón de chatbot",
+      "BUG-08: URL http://localhost hardcodeada en el CSS (yarnBackgroundTexture.svg)",
+      "BUG-09: campos del formulario de carrito no coincidían con el controlador (product_id vs id_product)"
+    ],
+    "errores_consola_navegador": {"antes": "404 style.css + 502 SVG localhost + TypeError chatbot", "despues": "0 errores en home, login, detalle de producto y búsqueda"}
+  }
+}

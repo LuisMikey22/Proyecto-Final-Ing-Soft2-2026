@@ -22,18 +22,16 @@
                     <p class="text-lg text-teal-950"><?=e($user->email)?></p>
                 </div>
 
-                <?php if(isset($user->rol)) : ?>
                 <div>
                     <p class="text-sm text-teal-700 font-semibold">Rol:</p>
-                    <p class="text-lg text-teal-950"><?=ucfirst($user->rol)?></p>
+                    <p class="text-lg text-teal-950"><?=ucfirst($user->role)?></p>
                 </div>
-                <?php endif; ?>
 
-                <?php if(isset($user->description)) : ?>
-                <div>
-                    <p class="text-sm text-teal-700 font-semibold">Descripción:</p>
-                    <p class="text-lg text-teal-950"><?=e(ucfirst($user->description))?></p>
-                </div>
+                <?php if(!empty($user->description)) : ?>
+                    <div>
+                        <p class="text-sm text-teal-700 font-semibold">Descripción:</p>
+                        <p class="text-lg text-teal-950"><?=e(ucfirst($user->description))?></p>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

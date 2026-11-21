@@ -1,5 +1,6 @@
 <?php 
-    $urlDestino = isset($_SESSION['id_user']) ? BASE_PATH . "/account/profile/" . $_SESSION['id_user'] : BASE_PATH . "/account/register"; 
+    $urlDestinoCuenta = isset($_SESSION['id_user']) ? BASE_PATH . "/account/profile/" . $_SESSION['id_user'] : BASE_PATH . "/login"; 
+    $urlDestinoCarrito = isset($_SESSION['id_user']) ? BASE_PATH . "/cart" : BASE_PATH . "/login"; 
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +24,7 @@
     </script> 
     
     <script src="<?=BASE_PATH?>/scripts/script.js" defer></script>
+
     <body>
         <header>
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
@@ -51,58 +53,49 @@
                 </a>
 
                 <ul class="nav-link-list">
-                    <li><b>Estambres</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Algodón</li></a>
-                            <a><li>Lana</li></a>
-                            <a><li>Lana merino</li></a>
-                            <a><li>Lino</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>/#seasonal-art">
+                        <li>
+                            <b>Estambres</b>
+                        </li>
+                    </a>
 
-                    <li><b>Patrones</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Principiantes</li></a>
-                            <a><li>Intermedios</li></a>
-                            <a><li>Avanzados</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>/#yarn-art">
+                        <li>
+                            <b>Patrones</b>
+                        </li>
+                     </a>
 
                     <li><b>Accesorios</b>
                         <ul class="nav-link-sub-list">
-                            <a><li>Recién agregados</li></a>
-                            <a><li>Mejor vendidos</li></a>
-                            <a><li>De temporada</li></a>
+                            <a href="<?=BASE_PATH?>/#"><li>Recién agregados</li></a>
+                            <a href="<?=BASE_PATH?>#new-art"><li>Mejor vendidos</li></a>
+                            <a href="<?=BASE_PATH?>#best-selling-art"><li>De temporada</li></a>
                         </ul>
                     </li>
 
-                    <li><b>Ganchos</b>
-                        <ul class="nav-link-sub-list">
-                            <a><li>Metal</li></a>
-                            <a><li>Bambú</li></a>
-                            <a><li>Plástico</li></a>
-                            <a><li>Vidrio</li></a>
-                        </ul>
-                    </li>
+                    <a href="<?=BASE_PATH?>/#pattern-art">
+                        <li>
+                            <b>Ganchos</b>
+                        </li>
+                     </a>
 
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') : ?>
-                        <a href="<?= BASE_PATH ?>/admin/dashboard" class="menu-link" style="font-weight: bold; color: var(--color-dark-blue);">
-                             <b>Estadísticas</b>
-                        </a>
+                        <li class="admin-link-visible"><b>Admin</b>
+                            <ul class="nav-link-sub-list">
+                                <a href="<?=BASE_PATH?>/admin/products"><li>Productos</li></a>
+                                <a href="<?=BASE_PATH?>/admin/users"><li>Usuarios</li></a>
+                                <a href="<?= BASE_PATH ?>/admin/dashboard"><li>Estadísticas</li></a>
+                                <a href="<?= BASE_PATH ?>/admin/inventory"><li>Inventario</li></a>
+                            </ul>
+                        </li>
                     <?php endif; ?>
-
-                    <li class="admin-link-visible"><b>Admin</b>
-                        <ul class="nav-link-sub-list">
-                            <a href="<?=BASE_PATH?>/admin/products"><li>Productos</li></a>
-                            <a href="<?=BASE_PATH?>/admin/users"><li>Usuarios</li></a>
-                        </ul>
-                    </li>
                 </ul>
                 
                 <div class="nav-button-bar">
                     <button id="search-button" class="search-button" title="Buscar"><img src="<?=ASSETS_PATH?>/images/searchIcon.svg" alt="search"></button>
-                    <button class="account-button" title="Perfil"><a href="<?= $urlDestino ?>"><img src="<?=ASSETS_PATH?>/images/userIcon.svg" alt="account"></a></button>
-                    <button class="cart-button" title="Bolsa de compras"><a href="<?=BASE_PATH?>"><img src="<?=ASSETS_PATH?>/images/cartIcon.svg" alt="cart"></a></button>
+                    <button class="account-button" title="Perfil"><a href="<?= $urlDestinoCuenta ?>"><img src="<?=ASSETS_PATH?>/images/userIcon.svg" alt="account"></a></button>
+                    
+                    <button class="cart-button" title="Bolsa de compras"><a href="<?= $urlDestinoCarrito ?>"><img src="<?=ASSETS_PATH?>/images/cartIcon.svg" alt="cart"></a></button>
                 </div>
             </nav>
 

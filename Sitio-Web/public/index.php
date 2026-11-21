@@ -16,14 +16,27 @@ require_once __DIR__ . '/../src/controllers/UsersController.php';
 require_once __DIR__ . '/../src/controllers/ProductsController.php';
 require_once __DIR__ . '/../src/controllers/ChatbotController.php';
 require_once __DIR__ . '/../src/controllers/DashboardController.php';
+require_once __DIR__ . '/../src/controllers/CartController.php';
+require_once __DIR__ . '/../src/controllers/CheckoutController.php';
+require_once __DIR__ . '/../src/controllers/TrackingController.php';
+require_once __DIR__ . '/../src/controllers/InventoryController.php';
+require_once __DIR__ . '/../src/controllers/ReviewController.php';
+require_once __DIR__ . '/../src/Models/Product.php';
+require_once __DIR__ . '/../src/Models/User.php';
+require_once __DIR__ . '/../src/Models/Cart.php';
 
 $pdo = getPDO();
 $dashboardController = new DashboardController($pdo);
 $chatbotController = new ChatbotController($pdo);
 $userController = new UsersController($pdo);
 $productController = new ProductsController($pdo);
+$cartController = new CartController($pdo);
+$checkoutController = new CheckoutController($pdo);
+$trackingController = new TrackingController($pdo);
+$inventoryController = new InventoryController($pdo);
+$reviewController = new ReviewController($pdo);
 
-$route = trim($_GET['route'] ?? 'home', '/');
+$route = strtolower(trim($_GET['route'] ?? 'home', '/'));
 $method = $_SERVER['REQUEST_METHOD'];
 
 // ==========================================
@@ -62,6 +75,7 @@ if (preg_match('#^products/(\d+)$#', $route, $matches)) {
     if ($method === 'GET') return $productController->showDetails((int)$matches[1]);
 }
 
+
 // ==========================================
 // 2. RUTAS DE AUTENTICACIÓN Y PERFIL
 // ==========================================
@@ -89,28 +103,77 @@ if (preg_match('#^account/profile/(\d+)$#', $route, $matches)) {
     if ($method === 'GET') return $userController->showProfile((int)$matches[1]);
 }
 
+
 // ==========================================
 // 3. RUTAS DEL CARRITO DE COMPRAS
 // ==========================================
 
 // Añadir al Carrito
-if ($route === 'cart/add' && $method === 'POST') {
-    requerirAutenticacion();
-    
-    $id_product = (int)($_POST['id_product'] ?? 0);
-    
-    if ($id_product > 0) {
-        if (session_status() === PHP_SESSION_NONE) session_start();
-        $_SESSION['cart_success'] = "Producto añadido al carrito exitosamente";
-        header('Location: ' . BASE_PATH . '/products/' . $id_product);
-        exit();
-    }
-    
-    header('Location: ' . BASE_PATH . '/products');
-    exit();
+
+// Ver el carrito
+if ($route === 'cart' && $method === 'GET') {
+    return $cartController->showCart();
 }
 
+// Añadir al Carrito
+if ($route === 'cart/add' && $method === 'POST') {
+    return $cartController->addToCart();
+}
+
+// Eliminar del carrito
+if (preg_match('#^cart/remove/(\d+)$#', $route, $matches) && $method === 'POST') {
+    return $cartController->removeFromCart((int)$matches[1]);
+}
+
+// Actualizar cantidad de un renglón del carrito
+if (preg_match('#^cart/update/(\d+)$#', $route, $matches) && $method === 'POST') {
+    return $cartController->updateItemQuantity((int)$matches[1]);
+}
+
+
 // ==========================================
+// RUTAS DE RESEÑAS / REVIEWS
+// ==========================================
+if (preg_match('#^review/(\d+)$#', $route, $matches) && $method === 'GET') {
+    return $reviewController->showForm((int)$matches[1]);
+}
+if ($route === 'review/submit' && $method === 'POST') {
+    return $reviewController->submitReview();
+}
+if ($route === 'reviews/all' && $method === 'GET') {
+    return $reviewController->showAllReviews();
+} 
+
+
+// ==========================================
+// RUTAS DE CHECKOUT Y PAGOS
+// ==========================================
+if ($route === 'checkout' && $method === 'GET') {
+    return $checkoutController->showCheckout();
+}
+if ($route === 'checkout/process' && $method === 'POST') {
+    return $checkoutController->processPayment();
+}
+if ($route === 'checkout/success' && $method === 'GET') {
+    return $checkoutController->success();
+}
+
+
+// ==========================================
+// RUTAS DE SEGUIMIENTO Y DEVOLUCIONES
+// ==========================================
+if ($route === 'mis-compras' && $method === 'GET') {
+    return $trackingController->myOrders();
+}
+if (preg_match('#^tracking/(\d+)$#', $route, $matches) && $method === 'GET') {
+    return $trackingController->trackOrder((int)$matches[1]);
+}
+if (preg_match('#^returns/(\d+)$#', $route, $matches) && $method === 'POST') {
+    return $trackingController->processReturn((int)$matches[1]);
+}
+
+// =
+// =========================================
 // 4. RUTAS ADMINISTRATIVAS (Protegidas)
 // ==========================================
 
@@ -159,6 +222,7 @@ if ($route === 'api/dashboard/data' && $method === 'GET') {
     return $dashboardController->apiAnalyticsData();
 }
 
+
 // --- MÓDULO DE USUARIOS ---
 if ($route === 'admin/users') {
     requireAdmin();
@@ -204,11 +268,17 @@ if (preg_match('#^admin/users/update/(\d+)$#', $route, $matches)) {
             'username'    => $_POST['user'] ?? '',
             'email'       => $_POST['email'] ?? '',
             'password'    => '', 
-            'role'        => $_POST['role'] ?? 'client',
+            'role'        => $_POST['role'] ?? '',
             'description' => $_POST['description'] ?? ''
         ];
         (new User($pdo))->update((int)$matches[1], $data);
-        header('Location: ' . BASE_PATH . '/admin/users');
+
+        if ($_POST['role'] === 'admin') : 
+            header('Location: ' . BASE_PATH . '/admin/users');
+        else:
+            header('Location: ' . BASE_PATH);
+        endif;
+
         exit();
     }
 }
@@ -217,6 +287,17 @@ if (preg_match('#^admin/users/delete/(\d+)$#', $route, $matches)) {
     requireAdmin();
     return $userController->deleteUser((int)$matches[1]);
 }
+
+
+// RUTAS DE INVENTARIO (ADMIN)
+// ==========================================
+if ($route === 'admin/inventory' && $method === 'GET') {
+    return $inventoryController->showInventory();
+}
+if ($route === 'admin/inventory/add' && $method === 'POST') {
+    return $inventoryController->updateStock();
+}
+
 
 // ==========================================
 // MÓDULO DE CHATBOT (Rutas Web y API)
@@ -233,6 +314,7 @@ if (preg_match('#^api/chatbot/sub/(\d+)$#', $route, $matches) && $method === 'GE
 if ($route === 'api/chatbot/log' && $method === 'POST') {
     return $chatbotController->apiLogInteraction();
 }
+
 
 // ==========================================
 // 5. MANEJO DE ERRORES (Cierre del Router)

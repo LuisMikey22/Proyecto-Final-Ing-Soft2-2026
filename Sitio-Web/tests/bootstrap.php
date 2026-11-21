@@ -16,6 +16,11 @@ require __DIR__ . '/../src/helpers/validation.php';
 require __DIR__ . '/../src/Models/User.php';
 require __DIR__ . '/../src/Models/Product.php';
 require __DIR__ . '/../src/Models/Dashboard.php';
+require __DIR__ . '/../src/Models/Cart.php';
+require __DIR__ . '/../src/Models/Order.php';
+require __DIR__ . '/../src/Models/Review.php';
+require __DIR__ . '/../src/Models/Inventory.php';
+require __DIR__ . '/../src/Models/Chatbot.php';
 
 // Sesión disponible para las pruebas de los helpers de autenticación
 if (session_status() === PHP_SESSION_NONE) {

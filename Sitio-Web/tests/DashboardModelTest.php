@@ -52,9 +52,12 @@ final class DashboardModelTest extends TestCase {
     public function testTendenciasReflejanVisitasDeHoy(): void {
         // Regresión del bug: antes la consulta de visitas nunca se ejecutaba
         // y la serie 'views' salía siempre vacía.
+        // Insertamos la visita con la fecha de PHP para que siempre caiga en "hoy"
+        // del filtro del Dashboard (que usa date() de PHP).
         $pdo = testPDO();
-        $pdo->exec("INSERT INTO product_views (id_product, created_at) VALUES (1, NOW())");
-        $idInsertado = (int)$pdo->lastInsertId();
+        $hoy = date('Y-m-d H:i:s');
+        $pdo->exec("INSERT INTO product_views (id_product, created_at) VALUES (1, '" . $hoy . "')");
+        $idInsertado = (int)$pdo->query("SELECT id_view FROM product_views ORDER BY id_view DESC LIMIT 1")->fetchColumn();
 
         $trends = $this->model->getWeeklyTrendsData();
         $this->assertGreaterThanOrEqual(1, end($trends['views'])); // el último día es hoy

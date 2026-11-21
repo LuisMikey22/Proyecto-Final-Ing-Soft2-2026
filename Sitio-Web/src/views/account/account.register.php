@@ -30,14 +30,24 @@
 
             <div class="text-input-container">
                 <label class="input-label" for="rol">Rol</label>
-                <input class="bordered-input" id="rol" type="text" value="Cliente" readonly style="background-color: #f0f0f0; cursor: not-allowed; opacity: 0.7;">
+                <?php if (esAdmin()): ?>
+                    <!-- Solo el administrador ve el selector de roles (crear cuentas admin desde el panel) -->
+                    <select class="bordered-input" id="rol" name="role" required>
+                        <optgroup label="Roles">
+                            <option value="client">cliente</option>
+                            <option value="admin">Administrador</option>
+                        </optgroup>
+                    </select>
+                <?php else: ?>
+                    <input class="bordered-input" id="rol" type="text" value="Cliente" readonly style="background-color: #f0f0f0; cursor: not-allowed; opacity: 0.7;">
+                <?php endif; ?>
             </div>
-
+            
             <div class="desc-container">
                 <label class="input-label" for="description">Descripción de perfil</label>
                 <textarea class="bordered-input" name="description" placeholder="Descripción"><?= e($old['description']) ?></textarea>
             </div>
-            
+
             <div class="action-container">
                 <a class="small-link" href="<?=BASE_PATH?>/login">¿Ya tienes una cuenta? Inicia sesión aquí</a>
                 <button class="action-button" type="submit">Registrarme</button>

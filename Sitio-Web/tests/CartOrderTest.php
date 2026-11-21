@@ -1,0 +1,131 @@
+<?php
+
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Pruebas unitarias del flujo de compra: carrito persistente, congelamiento
+ * de precio, checkout transaccional y aislamiento entre usuarios.
+ */
+final class CartOrderTest extends TestCase {
+
+    private Cart $cart;
+    private Order $order;
+    private int $idUser;
+    private int $idOtroUser;
+
+    protected function setUp(): void {
+        $pdo = testPDO();
+        $this->cart = new Cart($pdo);
+        $this->order = new Order($pdo);
+
+        // Dos usuarios de prueba para verificar el aislamiento entre cuentas
+        $userModel = new User($pdo);
+        $userModel->add(['username' => 'Comprador PHPUnit', 'email' => 'phpunit-cart-' . uniqid() . '@test.com', 'password' => 'passwordseguro123', 'role' => 'client', 'description' => '']);
+        $this->idUser = (int)$pdo->lastInsertId();
+        $userModel->add(['username' => 'Otro Comprador', 'email' => 'phpunit-cart-otro-' . uniqid() . '@test.com', 'password' => 'passwordseguro123', 'role' => 'client', 'description' => '']);
+        $this->idOtroUser = (int)$pdo->lastInsertId();
+    }
+
+    protected function tearDown(): void {
+        $pdo = testPDO();
+        // orders no tiene borrado en cascada desde users: limpiar primero los pedidos
+        $stmt = $pdo->prepare("DELETE FROM orders WHERE id_user IN (?, ?)");
+        $stmt->execute([$this->idUser, $this->idOtroUser]);
+        $stmt = $pdo->prepare("DELETE FROM users WHERE id_user IN (?, ?)");
+        $stmt->execute([$this->idUser, $this->idOtroUser]);
+    }
+
+    public function testAddItemCreaCarritoActivoYPrecioCongelado(): void {
+        $this->assertTrue($this->cart->addItem($this->idUser, 1, 2));
+
+        $items = $this->cart->getUserCart($this->idUser);
+        $this->assertCount(1, $items);
+        $this->assertSame(2, (int)$items[0]['quantity']);
+        $this->assertSame(260.00, (float)$items[0]['price']); // precio del producto 1
+    }
+
+    public function testAddItemRepetidoSumaCantidad(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $this->cart->addItem($this->idUser, 1, 3);
+
+        $items = $this->cart->getUserCart($this->idUser);
+        $this->assertCount(1, $items); // un solo renglón
+        $this->assertSame(4, (int)$items[0]['quantity']);
+    }
+
+    public function testRemoveItemNoAfectaCarritosDeOtrosUsuarios(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $items = $this->cart->getUserCart($this->idUser);
+        $idItem = (int)$items[0]['id_cart_item'];
+
+        // El otro usuario intenta borrar un renglón que no es suyo
+        $this->cart->removeItem($idItem, $this->idOtroUser);
+
+        $sigue = $this->cart->getUserCart($this->idUser);
+        $this->assertCount(1, $sigue); // el artículo sigue ahí
+
+        // El dueño sí puede borrarlo
+        $this->cart->removeItem($idItem, $this->idUser);
+        $this->assertCount(0, $this->cart->getUserCart($this->idUser));
+    }
+
+    public function testCheckoutCreaPedidoPagadoYCierraElCarrito(): void {
+        $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
+        $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
+
+        $idOrder = $this->order->processCheckout($this->idUser, 'tarjeta');
+        $this->assertNotFalse($idOrder);
+
+        $pedido = $this->order->getOrderById((int)$idOrder, $this->idUser);
+        $this->assertSame('paid', $pedido['status']);
+        $this->assertSame(600.00, (float)$pedido['total_amount']);
+
+        // El carrito activo quedó vacío (se cerró el anterior)
+        $this->assertCount(0, $this->cart->getUserCart($this->idUser));
+    }
+
+    public function testCheckoutConCarritoVacioDevuelveFalso(): void {
+        $this->assertFalse($this->order->processCheckout($this->idUser, 'tarjeta'));
+    }
+
+    public function testGetOrderByIdDeOtroUsuarioDevuelveFalso(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $idOrder = (int)$this->order->processCheckout($this->idUser, 'tarjeta');
+
+        $this->assertFalse($this->order->getOrderById($idOrder, $this->idOtroUser));
+    }
+
+    public function testRequestReturnCambiaElEstado(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $idOrder = (int)$this->order->processCheckout($this->idUser, 'tarjeta');
+
+        $this->assertTrue($this->order->requestReturn($idOrder, $this->idUser));
+        $pedido = $this->order->getOrderById($idOrder, $this->idUser);
+        $this->assertSame('return_requested', $pedido['status']);
+    }
+
+    public function testUpdateItemActualizaLaCantidad(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $items = $this->cart->getUserCart($this->idUser);
+        $idItem = (int)$items[0]['id_cart_item'];
+
+        // El otro usuario no puede modificar
+        $this->cart->updateItem($idItem, $this->idOtroUser, 5);
+        $sigue = $this->cart->getUserCart($this->idUser);
+        $this->assertSame(1, (int)$sigue[0]['quantity']);
+
+        // El dueño sí puede
+        $this->cart->updateItem($idItem, $this->idUser, 5);
+        $actualizado = $this->cart->getUserCart($this->idUser);
+        $this->assertSame(5, (int)$actualizado[0]['quantity']);
+    }
+
+    public function testGetUserOrdersDevuelveElHistorial(): void {
+        $this->cart->addItem($this->idUser, 1, 1);
+        $this->order->processCheckout($this->idUser, 'tarjeta');
+
+        $historial = $this->order->getUserOrders($this->idUser);
+        $this->assertCount(1, $historial);
+        $this->assertSame('paid', $historial[0]['status']);
+    }
+}

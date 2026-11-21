@@ -1,4 +1,4 @@
-<section class="bg-base-100 rounded-3xl" style="max-width: 800px; margin: 2rem auto; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden;">
+<section class="bg-base-100 rounded-3xl" style="max-width: 800px; margin: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); overflow: hidden;">
     <div style="background-color: var(--color-dark-blue); padding: 1.5rem; text-align: center; color: white;">
         <h2 class="text-2xl font-bold">Asistente Virtual</h2>
         <p class="text-sm opacity-80">Respuestas rápidas a tus dudas frecuentes</p>
@@ -9,7 +9,7 @@
 
     <div id="chat-controls" style="padding: 1.5rem; background-color: white; border-top: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
         <p class="text-teal-700 w-full text-center text-sm mb-2" id="controls-prompt">Cargando opciones...</p>
-        <div id="buttons-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; width: 100%;">
+        <div id="buttons-container" style="display: grid; width: 100%; gap: 0.5rem; justify-content: center;">
             </div>
     </div>
 </section>
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 data.forEach(opt => {
                     const btn = document.createElement("button");
                     btn.className = "action-button"; 
-                    btn.style.margin = "0";
+                    btn.style.width = "auto";
                     btn.innerText = opt.button_text;
                     btn.onclick = () => handleMainOptionClick(opt);
                     buttonsContainer.appendChild(btn);
@@ -96,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         data.forEach(subOpt => {
                             const btn = document.createElement("button");
                             btn.className = "edit-button"; 
-                            btn.style.margin = "0";
                             btn.innerText = subOpt.button_label;
                             btn.onclick = () => handleSubOptionClick(subOpt);
                             buttonsContainer.appendChild(btn);
@@ -128,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function addRestartButton() {
         const btn = document.createElement("button");
         btn.className = "action-button";
-        btn.style.margin = "0";
+        btn.style.width = "auto";
         btn.style.backgroundColor = "transparent";
         btn.style.color = "var(--color-dark-blue)";
         btn.style.border = "1px solid var(--color-dark-blue)";

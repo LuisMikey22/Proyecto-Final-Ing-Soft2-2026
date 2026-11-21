@@ -13,40 +13,74 @@ const menuButtonImage = document.getElementById("menu-button-image");
 //por cada contenedor de tarjetas
 document.querySelectorAll('.item-container').forEach(container => {
     let currentIndex = 0;
+    var intViewportWidth = window.innerWidth;
 
-    const carousel = container.parentElement;
-    const carouselCards = container.querySelectorAll('.item');
-    const totalCarouselCards = carouselCards.length;
-
-    const nextElButton = carousel.querySelector('.next-element-button');
-    const previousElButton = carousel.querySelector('.previous-element-button');
-
-    if(nextElButton) { //si existe botón en la página
-        nextElButton.addEventListener('click', () => {
-        currentIndex++;
-        if (currentIndex >= totalCarouselCards) {
-            currentIndex = 0;
-        }
-
-        updateTransform(carouselCards, currentIndex);
-        });
+    //según la dimensión de la pantallas mostar número de tarjetas simultáneas
+    let visibleCards = 0;
+    
+    if (intViewportWidth > 800) {
+        visibleCards = 5;
+    }else if (intViewportWidth > 480){
+        visibleCards = 3; 
+    } else {
+        visibleCards = 2;
     }
 
-    if(previousElButton) { //si existe botón en la página
-        previousElButton.addEventListener('click', () => {
+    const carousel = container.parentElement;
+    const cards = Array.from(container.querySelectorAll('.item'));
+    const total = cards.length;
+
+    const nextBtn = carousel.querySelector('.next-element-button');
+    const prevBtn = carousel.querySelector('.previous-element-button');
+
+    //calcular máximo índice desplazable (cuando queda menor a 5 ya no avanza)
+    const maxIndex = Math.max(0, total - visibleCards);
+
+    //estado inicial: desactivar botones si no hay suficiente contenido
+    updateButtons();
+
+    //preguntar si existe el botón para evitar null 
+    nextBtn?.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateTransform(cards, currentIndex);
+            updateButtons();
+        }
+    });
+
+    //preguntar si existe el botón para evitar null 
+    prevBtn?.addEventListener('click', () => {
+        if (currentIndex > 0) {
             currentIndex--;
+            updateTransform(cards, currentIndex);
+            updateButtons();
+        }
+    });
 
-            if (currentIndex < 0) {
-                currentIndex = totalCarouselCards - 1;
-            }
+    // ocultar o desactivar botones según estado
+    function updateButtons() {
+        if (!nextBtn || !prevBtn) return;
 
-            updateTransform(carouselCards, currentIndex);
-        });
+        if (maxIndex === 0) {
+            // no hay más desplazamiento
+            nextBtn.disabled = true;
+            prevBtn.disabled = true;
+            nextBtn.style.opacity = '0.5';
+            prevBtn.style.opacity = '0.5';
+
+            return;
+        }
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === maxIndex;
+        prevBtn.style.opacity = prevBtn.disabled ? '0.5' : '1';
+        nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
     }
 });
 
 function updateTransform(cards, currentIndex) {
-    cards.forEach((card) => {
+    // mover cada tarjeta independientemente
+    cards.forEach(card => {
         const offset = -currentIndex * card.offsetWidth;
         card.style.transform = `translateX(${offset}px)`;
     });
@@ -120,8 +154,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Eventos de clic
-    toggleBtn.addEventListener('click', toggleChat);
-    closeBtn.addEventListener('click', toggleChat);
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleChat);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', toggleChat);
+    }
 });
 
 /*
