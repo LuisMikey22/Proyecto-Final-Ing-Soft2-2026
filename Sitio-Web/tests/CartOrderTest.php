@@ -79,6 +79,27 @@ final class CartOrderTest extends TestCase {
         return (int)$this->order->processCheckout($this->idUser, 'tarjeta');
     }
 
+
+    public function testProbeSumaTotalCarritoEnCI(): void {
+        $this->cart->addItem($this->idUser, 1, 2);
+        $this->cart->addItem($this->idUser, 3, 1);
+        $pdo = testPDO();
+        $r = $pdo->query("SELECT c.id_cart, SUM(ci.quantity * ci.price_at_addition) as total, typeof(SUM(ci.quantity * ci.price_at_addition)) AS t FROM carts c JOIN cart_items ci ON c.id_cart = ci.id_cart WHERE c.id_user = " . (int)$this->idUser . " AND c.status = 'active' GROUP BY c.id_cart");
+        $row = $r->fetch(PDO::FETCH_ASSOC);
+        $this->assertNotFalse($row, 'La query del carrito no devolvio fila');
+        $this->assertNotNull($row['total'], 'El total debe no ser NULL');
+        $this->assertNotSame(0, (int)$row['total'], 'El total debe ser distinto de cero');
+    }
+
+    public function testProbeInsertOrderDirecto(): void {
+        $pdo = testPDO();
+        $pdo->exec("INSERT INTO orders (id_user, total_amount, status, created_at) VALUES (" . (int)$this->idUser . ", 99.50, 'paid', NOW())");
+        $id = (int)$pdo->lastInsertId();
+        $this->assertGreaterThan(0, $id, 'lastInsertId debe ser mayor que cero');
+        $row = $pdo->query("SELECT id_order, status, total_amount FROM orders WHERE id_order = $id")->fetch(PDO::FETCH_ASSOC);
+        $this->assertNotFalse($row, 'El pedido insertado debe existir');
+    }
+
     public function testCheckoutSetupCartTieneDosItems(): void {
         $this->cart->addItem($this->idUser, 1, 2); // 2 x 260 = 520
         $this->cart->addItem($this->idUser, 3, 1); // 1 x 80 = 80
