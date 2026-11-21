@@ -58,17 +58,18 @@ jobs:
       - name: Importar el esquema oficial a la BD de pruebas
         run: mysql -h 127.0.0.1 -u root anuiesne_ehqa_test < docs/calidad/evidencias/esquema-anuiesne_ehqa.sql
 
-      - name: Ejecutar pruebas unitarias (cobertura mínima 70%)
+      - name: Ejecutar pruebas unitarias (ejecucion phpunit)
+        working-directory: Sitio-Web
+        run: vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
+
+      - name: Verificar cobertura (umbral 70%)
         working-directory: Sitio-Web
         run: |
-          vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
-          status=$?
-          cat ../docs/calidad/evidencias/cobertura-resumen-ci.txt
-          if [ $status -ne 0 ]; then exit $status; fi
-          pct=$(grep -oP 'Lines:\s+\K[\d.]+' ../docs/calidad/evidencias/cobertura-resumen-ci.txt | head -1)
+          pct=$(grep -oE "Lines:\s+([0-9.]+)%" ../docs/calidad/evidencias/cobertura-resumen-ci.txt | head -n 1 | grep -oE "[0-9.]+")
+          echo "Porcentaje de cobertura detectado: [$pct]"
           if [ -z "$pct" ]; then echo "No se pudo leer el porcentaje de cobertura"; exit 1; fi
           if awk -v p="$pct" 'BEGIN{exit !(p>=70)}'; then
             echo "Linea base de cobertura: $pct% (>= 70)"
           else
-            echo "Cobertura $pct% esta por debajo del mínimo del 70%"; exit 1
+            echo "Cobertura $pct% esta por debajo del minimo del 70%"; exit 1
           fi
