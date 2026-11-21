@@ -61,10 +61,14 @@ jobs:
       - name: Ejecutar pruebas unitarias (cobertura mínima 70%)
         working-directory: Sitio-Web
         run: |
-          vendor/bin/phpunit --coverage-text 2>&1 | Tee-Object -FilePath ../docs/calidad/evidencias/cobertura-resumen-ci.txt
-          $report = Get-Content ../docs/calidad/evidencias/cobertura-resumen-ci.txt -Raw
-          $match = $report -match 'Lines:\s+([\d.]+)%'
-          if (-not $match) { throw "No se pudo leer el porcentaje de cobertura del reporte" }
-          $pct = [double]$match.Groups[1].Value
-          if ($pct -lt 70) { throw "Cobertura de ${pct}% está por debajo del mínimo del 70%" }
-          "Línea base de cobertura: ${pct}% (>= 70)"
+          vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1
+          status=$?
+          cat ../docs/calidad/evidencias/cobertura-resumen-ci.txt
+          if [ $status -ne 0 ]; then exit $status; fi
+          pct=$(grep -oP 'Lines:\s+\K[\d.]+' ../docs/calidad/evidencias/cobertura-resumen-ci.txt | head -1)
+          if [ -z "$pct" ]; then echo "No se pudo leer el porcentaje de cobertura"; exit 1; fi
+          if awk -v p="$pct" 'BEGIN{exit !(p>=70)}'; then
+            echo "Linea base de cobertura: $pct% (>= 70)"
+          else
+            echo "Cobertura $pct% esta por debajo del mínimo del 70%"; exit 1
+          fi
