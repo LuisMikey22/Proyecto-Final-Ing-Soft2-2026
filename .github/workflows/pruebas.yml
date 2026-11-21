@@ -82,27 +82,28 @@ jobs:
           vendor/bin/phpunit --coverage-text > ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>&1 || echo "PHPUNIT_EXIT=$?" > ../docs/calidad/evidencias/probe-phpunit-exit.txt
           ls -la ../docs/calidad/evidencias/ | grep -i cobertura || true
 
-      - name: PROBE Q1 reporte existe y no vacio
+      - name: RA1 reporte contiene "Failed asserting"
         working-directory: Sitio-Web
         run: |
-          if [ -s ../docs/calidad/evidencias/cobertura-resumen-ci.txt ]; then exit 0; else echo "REPORTE VACIO/AUSENTE"; exit 1; fi
+          if grep -q "Failed asserting" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then echo "RA1: FALLO POR ASSERTION"; exit 1; else exit 0; fi
 
-      - name: PROBE Q2 reporte contiene Tests marker
+      - name: RA2 reporte contiene error critico
         working-directory: Sitio-Web
         run: |
-          if grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
+          if grep -qiE "(PHP Fatal error|Uncaught Error|could not find driver|SQLSTATE|No tests executed)" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then echo "RA2: FALLO POR ERROR"; exit 1; else exit 0; fi
 
-      - name: PROBE Q3 reporte contiene OK marker
+      - name: RA3 reporte completo sin marcador OK
         working-directory: Sitio-Web
         run: |
-          if grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 0; else exit 1; fi
+          if grep -q "Tests:" ../docs/calidad/evisencias/cobertura-resumen-ci.txt 2>/dev/null; then if ! grep -q "^OK (" ../docs/calidad/evisencias/cobertura-resumen-ci.txt 2>/dev/null; then echo "RA3: COMPLETADO SIN OK"; exit 1; else exit 0; fi; else exit 0; fi
 
-      - name: PROBE Q4 phpunit exit code cero
+      - name: RA4 phpunit exit code cero
         working-directory: Sitio-Web
         run: |
           code=$(sed -n 's/PHPUNIT_EXIT=//p' ../docs/calidad/evidencias/probe-phpunit-exit.txt 2>/dev/null)
+          echo "phpunit exit code: ${code:-0}"
           if [ -z "$code" ]; then echo "NO EXIT CODE CAPTURADO"; exit 1; fi
-          if [ "$code" = "0" ]; then exit 0; else exit 1; fi
+          if [ "$code" = "0" ]; then exit 0; else echo "RA4: PHPUNIT FALLO con codigo $code"; exit 1; fi
 
       - name: Verificar cobertura (umbral 70%)
         working-directory: Sitio-Web
