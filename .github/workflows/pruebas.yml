@@ -95,7 +95,7 @@ jobs:
       - name: RA3 reporte completo sin marcador OK
         working-directory: Sitio-Web
         run: |
-          if grep -q "Tests:" ../docs/calidad/evisencias/cobertura-resumen-ci.txt 2>/dev/null; then if ! grep -q "^OK (" ../docs/calidad/evisencias/cobertura-resumen-ci.txt 2>/dev/null; then echo "RA3: COMPLETADO SIN OK"; exit 1; else exit 0; fi; else exit 0; fi
+          if grep -q "Tests:" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then if ! grep -q "^OK (" ../docs/calidad/evidencias/cobertura-resumen-ci.txt 2>/dev/null; then echo "RA3: COMPLETADO SIN OK"; exit 1; else exit 0; fi; else exit 0; fi
 
       - name: RA4 phpunit exit code cero
         working-directory: Sitio-Web
