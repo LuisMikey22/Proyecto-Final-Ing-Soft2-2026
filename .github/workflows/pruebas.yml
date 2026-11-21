@@ -127,10 +127,20 @@ jobs:
         run: |
           if grep -q "CartOrderTest::testRemoveItemNoAfectaCarritosDeOtrosUsuarios" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
+      - name: PROBEF CartOrderTest-testCheckoutSetupCartTieneDosItems
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutSetupCartTieneDosItems" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
       - name: PROBEF CartOrderTest-testCheckoutProcessCheckoutDevuelveIdValido
         working-directory: Sitio-Web
         run: |
           if grep -q "CartOrderTest::testCheckoutProcessCheckoutDevuelveIdValido" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
+
+      - name: PROBEF CartOrderTest-testCheckoutProcessCheckoutFalsoSiCarroVacio
+        working-directory: Sitio-Web
+        run: |
+          if grep -q "CartOrderTest::testCheckoutProcessCheckoutFalsoSiCarroVacio" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then exit 1; else exit 0; fi
 
       - name: PROBEF CartOrderTest-testCheckoutPedidoEstatusEsPaid
         working-directory: Sitio-Web
