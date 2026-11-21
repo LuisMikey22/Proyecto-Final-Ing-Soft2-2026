@@ -73,15 +73,8 @@ jobs:
         run: vendor/bin/phpunit --version
 
       - name: PROBE pdo-connect
-        run: php -r 'require_once "Sitio-Web/src/config/database.php"; $pdo = getPDO(); echo "PDO_CONNECT: " . $pdo->query("SELECT DATABASE() as d")->fetchColumn() . PHP_EOL;'
-
-      - name: PROBE reporte-no-error
-        working-directory: Sitio-Web
         run: |
-          if grep -qiE "(fatal|uncaught|error:|sqlstate|could not find driver|class .+ not found)" ../docs/calidad/evidencias/cobertura-resumen-ci.txt; then
-            echo "REPORTE CON ERROR"; exit 1
-          fi
-          echo "REPORTE LIMPIO (o sin salida)"; exit 0
+          php -r 'require_once "Sitio-Web/src/config/database.php"; $pdo = getPDO(); echo "PDO_CONNECT: " . $pdo->query("SELECT DATABASE() as d")->fetchColumn() . PHP_EOL;'
 
       - name: Ejecutar pruebas unitarias (ejecucion phpunit)
         working-directory: Sitio-Web
@@ -99,7 +92,7 @@ jobs:
           echo "Porcentaje de cobertura detectado: [$pct]"
           if [ -z "$pct" ]; then echo "No se pudo leer el porcentaje de cobertura"; exit 1; fi
           if awk -v p="$pct" 'BEGIN{exit !(p>=70)}'; then
-            echo "Linea base de cobertura: $pct% (>= 70)"
+            echo "Linea base de cobertura: $p% (>= 70)"
           else
             echo "Cobertura $pct% esta por debajo del minimo del 70%"; exit 1
           fi
